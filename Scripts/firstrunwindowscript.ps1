@@ -3,9 +3,13 @@
 #Set execution policy
 Set=ExecutionPolicy AllSigned
 
-#Install chocolatey
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-Install-Module -Name ProgramManagement
+#Install needed programs
+   Install-Module -Name ProgramManagement
+   Import-Module ProgramManagement
+   Get-Commands -Module ProgramManagement
+      #If you need help with commands
+   #   Get-Commands -Module ProgramManagement
+   #   Get-Help about_ProgramManagement
 
 #Set functions for later usage
    function RemoveThisUser {
