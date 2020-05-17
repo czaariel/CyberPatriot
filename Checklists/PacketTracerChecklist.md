@@ -36,12 +36,12 @@ Encoding is the process of converting information into another acceptable form, 
    ````
    To enable a secret password you can
    
-      ````
+
       ena
       conf t
       ena secret <password>
-      ````
-      
+
+
 ### Switches
 
 
