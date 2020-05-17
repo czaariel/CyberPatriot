@@ -44,7 +44,7 @@ Encoding is the process of converting information into another acceptable form, 
 
 ### Switches
 
--Configure **Default Gateway [Switch] **
+- Configure **Default Gateway (switch) **
    ````
    ena
    conf t
