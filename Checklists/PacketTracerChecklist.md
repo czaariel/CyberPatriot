@@ -36,7 +36,15 @@
 - Access Control Lists
    - Wild Card Mask
       - Can be found by subtracting 255.255.255.255 from IP subnet mask
-      - 
+      - Can be used to create shorter, faster commands
+      - Ex: access-list 10 permit 192.168.16.0 0.0.15.255
+      - Keywords: 
+         - host -> substitutes for 0.0.0.0
+            -  `access-list 1 permit 192.168.10.10 0.0.0.0`
+            -  `access-list 1 permit host 192.168.10.10`
+         - any -> substitutes for 255.255.255.255
+            -  `access-list 1 permit 0.0.0.0 255.255.255.255`
+            -  `access-list 1 permit any` <- are the same
 
 
 
