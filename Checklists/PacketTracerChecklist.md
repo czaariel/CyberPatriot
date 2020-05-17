@@ -22,3 +22,35 @@ Encoding is the process of converting information into another acceptable form, 
 
 
 ## Commands and Checklist
+
+### General Commands
+
+   ````
+   no ip domain-lookup        
+   no shut                    #turns device/connection on
+   show ip interfaces brief   
+   show ip route              #shows ip routing table
+   show run                   
+   show interfaces            
+   show ip interfaces         
+   ````
+   To enable a secret password you can
+      ````
+      ena
+      conf t
+      ena secret <password>
+      ````
+### Switches
+
+
+
+
+
+### Routers
+
+
+
+
+
+
+
