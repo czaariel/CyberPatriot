@@ -28,10 +28,7 @@ Set-Content config wuauserv start= auto
 #User Management
     #Turn off Guest Account
     net user guest /active no
-    #Add a user
-    New-Localuser -Name $addmepls -Password $Password -FullName $addmepls -Description "Required in ReadMe"
-    ##Remove a user
-    Remove-LocalUser -Name $removemepls
+
 
 # Password Policy
     #Set minimum password length to 8, max password age to 90 days, minimum age to 15 days, and how many passwords are kept to prevent reuse
@@ -42,8 +39,7 @@ Set-Content config wuauserv start= auto
     auditpol /set /category:* /failure:enable
     #Password Lockout Policy (Lockout for 30 minutes after 5 attempts)
     net accounts /lockoutthreshold:5
-    net accounts /l
-    ockoutduration:30
+    net accounts /lockoutduration:30
     ##Enable password expiration
     wmic path Win32_UserAccount where PasswordExpires=false set PasswordExpires=true
     wmic path Win32_UserAccount where Name="Guest" set PasswordExpires=false
@@ -54,8 +50,8 @@ Set-Content config wuauserv start= auto
 
 #Remove These Files
     #Removes Wireshark
-    cuninst Wireshark
+    Uninstall-Program -ProgramName Wireshark -UninstallAllSimilarlyNamedPackages
     #Removes Angry IP Scanner
-    cuninst AngryIPscanner
+    Uninstall-Program -ProgramName AngryIPscanner -UninstallAllSimilarlyNamedPackages
     #Removes NetBus Pro
-    cuninst NetBuspro
+    Uninstall-Program -ProgramName NetBuspro -UninstallAllSimilarlyNamedPackages
