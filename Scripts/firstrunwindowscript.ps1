@@ -3,13 +3,12 @@
 #Set execution policy
 Set=ExecutionPolicy AllSigned
 
-#Install needed programs
-   Install-Module -Name ProgramManagement
-   Import-Module ProgramManagement
-   Get-Commands -Module ProgramManagement
-      #If you need help with commands
-   #   Get-Commands -Module ProgramManagement
-   #   Get-Help about_ProgramManagement
+#Install ProgramManagement
+Install-Module ProgramManagement
+Import-Module ProgramManagement
+echo "Use 'Get-Command -Module ProgramManagement' or ' Get-Help <command> -Full'"
+
+
 
 #Set functions for later usage
    function RemoveThisUser {
