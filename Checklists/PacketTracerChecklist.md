@@ -35,11 +35,13 @@ Encoding is the process of converting information into another acceptable form, 
    show ip interfaces         
    ````
    To enable a secret password you can
+   
       ````
       ena
       conf t
       ena secret <password>
       ````
+      
 ### Switches
 
 
