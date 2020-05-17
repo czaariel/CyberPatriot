@@ -44,11 +44,31 @@ Encoding is the process of converting information into another acceptable form, 
 
 ### Switches
 
-
-
+-Configure **Default Gateway [Switch] **
+   ````
+   ena
+   conf t
+   ip default-gateway [ip address]
+   ````
+   
 
 
 ### Routers
+
+
+
+
+
+
+### Troubleshooting
+
+If not all packets are being received check:
+   - all ports are on
+   - correct mode is enabled 
+      - ex: on a switch, **end devices are access** while **other devices are trunk**
+   - default gateway is set and correct
+   - correct encapsulation and vlan
+   - make sure devices are not shutdown
 
 
 
