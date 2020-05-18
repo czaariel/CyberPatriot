@@ -244,13 +244,14 @@ removethese() {
 	echo "Removing default games IF installed..."
 	sudo apt-get purge gnome-games-common gbrainy && sudo apt-get autoremove
 	sudo apt remove aisleriot gnome-mahjongg gnome-mines gnome-sudoku 
+	
 
 }
 
 firewallconfig() {
 	echo "setting up firewall"
 	##Install UFW incase
-	sudo apt-get install ufw
+	sudo apt-get install ufw -y
 	##Turn on firewall
 	sudo ufw enable
 	##Enable syn cookie protection
