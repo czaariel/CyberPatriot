@@ -7,6 +7,7 @@
 ## 3) Check the users and replace them into the variables located near the password and userchange function function 
 ## 4) Check all capitalization and spelling
 ## 5) Use "sudo bash linuxscript.sh" to run file when ready
+## 6) NOTES: ADD A MENU FOR SCRIPT!; ADD 
 
 #!/bin/bash
 
