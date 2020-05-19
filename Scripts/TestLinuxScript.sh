@@ -413,37 +413,37 @@ echo "
 "
 read pleasegoto
 
-if [ "$pleasegoto" = "1" } || [ "$pleasegoto" = "one"]
+if [ "$pleasegoto" = "1" ] || [ "$pleasegoto" = "one"]
 then
     updates
-elif [ "$pleasegoto" = "2" } || [ "$pleasegoto" = "two"]
+elif [ "$pleasegoto" = "2" ] || [ "$pleasegoto" = "two"]
 then
     netstats
-elif [ "$pleasegoto" = "3" } || [ "$pleasegoto" = "three"]
+elif [ "$pleasegoto" = "3" ] || [ "$pleasegoto" = "three"]
 then
     fastusrchg
-elif [ "$pleasegoto" = "4" } || [ "$pleasegoto" = "four"]
+elif [ "$pleasegoto" = "4" ] || [ "$pleasegoto" = "four"]
 then
     passwordConf
-elif [ "$pleasegoto" = "5" } || [ "$pleasegoto" = "five"]
+elif [ "$pleasegoto" = "5" ] || [ "$pleasegoto" = "five"]
 then
     disrootandguest
-elif [ "$pleasegoto" = "6" } || [ "$pleasegoto" = "six"]
+elif [ "$pleasegoto" = "6" ] || [ "$pleasegoto" = "six"]
 then
     auditingpolicies
-elif [ "$pleasegoto" = "7" } || [ "$pleasegoto" = "seven"]
+elif [ "$pleasegoto" = "7" ] || [ "$pleasegoto" = "seven"]
 then
     removethese
-elif [ "$pleasegoto" = "8" } || [ "$pleasegoto" = "eight"]
+elif [ "$pleasegoto" = "8" ] || [ "$pleasegoto" = "eight"]
 then
     firewallconfig
-elif [ "$pleasegoto" = "9" } || [ "$pleasegoto" = "nine"]
+elif [ "$pleasegoto" = "9" ] || [ "$pleasegoto" = "nine"]
 then
     echo "please rerun, the number 9 function is not currently working." #newtestfunc
-elif [ "$pleasegoto" = "10" } || [ "$pleasegoto" = "ten"]
+elif [ "$pleasegoto" = "10" ] || [ "$pleasegoto" = "ten"]
 then
     iptablesconfig
-elif [ "$pleasegoto" = "11" } || [ "$pleasegoto" = "eleven"]
+elif [ "$pleasegoto" = "11"] || [ "$pleasegoto" = "eleven"]
 then
     filesconfig
 fi
