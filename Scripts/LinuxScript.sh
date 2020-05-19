@@ -11,6 +11,11 @@
 
 #!/bin/bash
 
+#Understand/Set basic variables
+echo "Who are you logged in as? (ex: bwayne)"
+read loggedinas
+echo "Please go and make a file called userlist.txt"
+
 ##Create a function to be able to decide to move on or not...
 cont() {
   echo "Continue (Y | N)?"
@@ -72,17 +77,7 @@ updates() {
 	cont
 	##Update 7-Zip
 	sudo apt-get install p7zip-full
-	##Remove nmap and zenmap
-	sudo apt-get remove nmap
-	cont
-	sudo apt-get purge nmap
-	cont
-	sudo apt-get remove zennmap
-	cont
-	sudo apt-get purge zenmap
-	cont
-	sudo apt-get install auditd
-	cont
+
 }
 
 ##Look at ports and which aplications are using them
@@ -166,9 +161,9 @@ fastusrchg() {
 
 passwordConf() {
 	##Set Password History
-	chmod u+r /etc/pam.d/common-password
-	chmod u+w /etc/pam.d/common-password
-	chmod u+x /etc/pam.d/common-password
+	chown $loggedinas /etc/pam.d/common-password
+	chown $loggedinas /etc/pam.d/common-password
+	chown $loggedinas /etc/pam.d/common-password
 	echo "Change password history to 5 by adding 'remember=5' to the end of the line with pam_unix.so"
 	cont
 	gedit /etc/pam.d/common-password
@@ -214,6 +209,8 @@ auditpolicies() {
 ##Disable root login and guest
 disrootandguest() {
 	##Disabling root
+		#Get file perms
+		chown $loggedinas /etc/ssh/sshd_config
 	echo "Disabling root login..."
 	echo "If you want to disable root, change PermitRootLogin to no"
 	cont
@@ -221,9 +218,11 @@ disrootandguest() {
 	echo "Done disabling root"
 	cont
 	##Disable Guest access
+		#Get file perms
+		chown $loggedinas /etc/ssh/sshd_config
 	echo "disabling guest access"
 	echo "add the following: allow-guest=false into the file"
-	sudo gksu gedit /etc/lightdm/lightdm.conf
+	sudo gedit /etc/lightdm/lightdm.conf
 	echo "Done disabling guest access"
 	cont
 }
@@ -245,6 +244,17 @@ removethese() {
 	echo "Removing default games IF installed..."
 	sudo apt-get purge gnome-games-common gbrainy && sudo apt-get autoremove
 	sudo apt remove aisleriot gnome-mahjongg gnome-mines gnome-sudoku 
+	##Remove nmap and zenmap
+	sudo apt-get remove nmap
+	cont
+	sudo apt-get purge nmap
+	cont
+	sudo apt-get remove zennmap
+	cont
+	sudo apt-get purge zenmap
+	cont
+	sudo apt-get install auditd
+	cont
 	
 
 }
@@ -380,6 +390,7 @@ iptablesconfig() {
 }
 
 filesconfig() {
+	echo "deleting unwanted files..."
 	find / -name '*.mp3' -type f -delete
 	find / -name '*.mov' -type f -delete
 	find / -name '*.mp4' -type f -delete
