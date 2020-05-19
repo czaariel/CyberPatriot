@@ -253,6 +253,8 @@ firewallconfig() {
 	echo "setting up firewall"
 	##Install UFW incase
 	sudo apt-get install ufw -y
+	##Update firewall
+	sudo apt-get upgrade ufw -y
 	##Turn on firewall
 	sudo ufw enable
 	##Enable syn cookie protection
