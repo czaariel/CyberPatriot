@@ -1,7 +1,11 @@
 #Run Powershell as admin
 
 #Set execution policy
-Set=ExecutionPolicy AllSigned
+Set=ExecutionPolicy Unrestricted
+#Fix any potential issues with powershell
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Install-PackageProvider -Name NuGet
+
 
 #Install ProgramManagement
 Install-Module -Name ProgramManagement
