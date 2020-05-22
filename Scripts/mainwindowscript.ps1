@@ -157,7 +157,7 @@ Set-Content config wuauserv start= auto
     
 #User Management
     #Turn off Guest Account
-    net user guest /active no
+    net user guest /active:no
 
 
 # Password Policy
