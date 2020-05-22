@@ -4,8 +4,8 @@
 Set=ExecutionPolicy AllSigned
 
 #Install ProgramManagement
-Install-Module ProgramManagement
-Import-Module ProgramManagement
+Install-Module -Name ProgramManagement
+Import-Module -Name ProgramManagement
 echo "Use 'Get-Command -Module ProgramManagement' or ' Get-Help <command> -Full'"
 
 
