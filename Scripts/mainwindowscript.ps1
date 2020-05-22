@@ -157,6 +157,8 @@ Set-Content config wuauserv start= auto
     
 #User Management
     #Turn off Guest Account
+    	#Check to see if Guest Account is active
+	net user guest | findstr /C:"active"
     net user guest /active:no
 
 
