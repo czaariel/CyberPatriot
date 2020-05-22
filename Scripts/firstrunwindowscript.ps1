@@ -21,6 +21,8 @@ echo "Use 'Get-Command -Module ProgramManagement' or ' Get-Help <command> -Full'
         Remove-LocalUser -Name $args
     }
     function AddThisUser {
+        echo "enter the password you want for the user
+        $Password = Read-Host -AsSecureString
         New-LocalUser -name $args -Password $Password -FullName $args -Description "new user"
     }
     function Change2User {
