@@ -394,61 +394,72 @@ filesconfig() {
 	find /home -name '*.jpeg' -type f -delete
 }
 
-echo "
+startingmenu() {
+	echo "
 
-  ---------------------------------------------------------------------------------
-  Welcome to the Raleigh-Wake CyberPatriot Linux script, choose a number (1-10):
-      1) General Updates
-      2) Network Statistics
-      3) User Configurations
-      4) Password Configurations
-      5) Disable Root and Guest accounts
-      6) Audit Policies
-      7) Remove Programs
-      8) Firewall Config
-      9) *test function, please skip this*
-      10) IP table configuration
-      11) File Configuration
-  ---------------------------------------------------------------------------------
-"
-read pleasegoto
+	  ---------------------------------------------------------------------------------
+	  Welcome to the Raleigh-Wake CyberPatriot Linux script, choose a number (1-10):
+	      1) General Updates
+	      2) Network Statistics
+	      3) User Configurations
+	      4) Password Configurations
+	      5) Disable Root and Guest accounts
+	      6) Audit Policies
+	      7) Remove Programs
+	      8) Firewall Config
+	      9) *test function, please skip this*
+	      10) IP table configuration
+	      11) File Configuration
+	  ---------------------------------------------------------------------------------
+	"
+	read pleasegoto
 
-if [ "$pleasegoto" = "1" ] || [ "$pleasegoto" = "one"]
-then
-    updates
-elif [ "$pleasegoto" = "2" ] || [ "$pleasegoto" = "two"]
-then
-    netstats
-elif [ "$pleasegoto" = "3" ] || [ "$pleasegoto" = "three"]
-then
-    fastusrchg
-elif [ "$pleasegoto" = "4" ] || [ "$pleasegoto" = "four"]
-then
-    passwordConf
-elif [ "$pleasegoto" = "5" ] || [ "$pleasegoto" = "five"]
-then
-    disrootandguest
-elif [ "$pleasegoto" = "6" ] || [ "$pleasegoto" = "six"]
-then
-    auditingpolicies
-elif [ "$pleasegoto" = "7" ] || [ "$pleasegoto" = "seven"]
-then
-    removethese
-elif [ "$pleasegoto" = "8" ] || [ "$pleasegoto" = "eight"]
-then
-    firewallconfig
-elif [ "$pleasegoto" = "9" ] || [ "$pleasegoto" = "nine"]
-then
-    echo "please rerun, the number 9 function is not currently working." #newtestfunc
-elif [ "$pleasegoto" = "10" ] || [ "$pleasegoto" = "ten"]
-then
-    iptablesconfig
-elif [ "$pleasegoto" = "11"] || [ "$pleasegoto" = "eleven"]
-then
-    filesconfig
-fi
+	if [ "$pleasegoto" = "1" ] || [ "$pleasegoto" = "one"]
+	then
+	    updates
+	    startingmenu
+	elif [ "$pleasegoto" = "2" ] || [ "$pleasegoto" = "two"]
+	then
+	    netstats
+	    startingmenu
+	elif [ "$pleasegoto" = "3" ] || [ "$pleasegoto" = "three"]
+	then
+	    fastusrchg
+	    startingmenu
+	elif [ "$pleasegoto" = "4" ] || [ "$pleasegoto" = "four"]
+	then
+	    passwordConf
+	    startingmenu
+	elif [ "$pleasegoto" = "5" ] || [ "$pleasegoto" = "five"]
+	then
+	    disrootandguest
+	    startingmenu
+	elif [ "$pleasegoto" = "6" ] || [ "$pleasegoto" = "six"]
+	then
+	    auditingpolicies
+	    startingmenu
+	elif [ "$pleasegoto" = "7" ] || [ "$pleasegoto" = "seven"]
+	then
+	    removethese
+	    startingmenu
+	elif [ "$pleasegoto" = "8" ] || [ "$pleasegoto" = "eight"]
+	then
+	    firewallconfig
+	    startingmenu
+	elif [ "$pleasegoto" = "9" ] || [ "$pleasegoto" = "nine"]
+	then
+	    echo "please rerun, the number 9 function is not currently working." #newtestfunc
+	elif [ "$pleasegoto" = "10" ] || [ "$pleasegoto" = "ten"]
+	then
+	    iptablesconfig
+	    startingmenu
+	elif [ "$pleasegoto" = "11"] || [ "$pleasegoto" = "eleven"]
+	then
+	    filesconfig
+	    startingmenu
+	fi
+}
 
-
-
+startingmenu
 
 
