@@ -427,7 +427,7 @@ startingmenu() {
 	    startingmenu
 	elif [ "$pleasegoto" = "6" ] || [ "$pleasegoto" = "six" ]
 	then
-	    auditingpolicies
+	    auditpolicies
 	    startingmenu
 	elif [ "$pleasegoto" = "7" ] || [ "$pleasegoto" = "seven" ]
 	then
@@ -444,7 +444,7 @@ startingmenu() {
 	then
 	    iptablesconfig
 	    startingmenu
-	elif [ "$pleasegoto" = "11"] || [ "$pleasegoto" = "eleven" ]
+	elif [ "$pleasegoto" = "11" ] || [ "$pleasegoto" = "eleven" ]
 	then
 	    filesconfig
 	    startingmenu
