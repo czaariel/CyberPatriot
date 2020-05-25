@@ -34,17 +34,17 @@ runAll() {
 
 ##Update programs and systems
 updates() {
-	echo "setting updates"
-	sudo apt-get purge gedit
-	sudo apt-get install gedit
-	##Start with firefox
+	sudo add-apt-repository -y ppa:libreoffice/ppa
+	sudo apt-get update -y
+	wait
+	sudo apt-get upgrade -y
+	wait
+	sudo apt-get dist-upgrade -y
+	wait
 	killall firefox
 	wait
-	sudo apt-get update
 	sudo apt-get --purge --reinstall install firefox
 	wait
-	sudo apt-get upgrade
-	sudo apt-get dist-upgrade
 	sudo apt-get gksu
 	##Enable autoupdates
 	sudo apt-get install unattended-upgrades
