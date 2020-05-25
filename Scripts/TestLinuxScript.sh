@@ -5,7 +5,7 @@
 cont() {
   echo "Continue (Y | N)?"
   read contyn
-  if [ "$contyn" = "N" ] || [ "$contyn" = "n"]
+  if [ "$contyn" = "N" ] || [ "$contyn" = "n" ]
   then
 		echo "Exiting"
     exit
@@ -56,16 +56,25 @@ netstats() {
 	cont
 }
 
+fastusrchg() {
+	#Welcome and user listing
+	clear
+	echo "Have you noted all of the users allowed in the readme? If not, please go do so now."
+	cont
+	echo "Do you have any users you need to remove? (Y|N)"
+	read need2remove
+	if [ "$need2remove" = "Y" ] || [ "$need2remove" = "y" ]
+}
 ##This is a list of variables used in if statements below... change the users to the correct usernames before running...
 deleteme="Tommy"
 addme="Jeremy"
 chgtype="bobby"
 chgtypetouser="Stephen"
-fastusrchg() {
+fastusrchgold() {
 	##Delete unwanted users
 	echo "need to delete any users (Y|N)?"
 	read confirmdeleteusers
-	if [ "$confirmdeleteusers" = "Y" ] || [ "$confirmdeleteusers" = "y"]
+	if [ "$confirmdeleteusers" = "Y" ] || [ "$confirmdeleteusers" = "y" ]
 	then
 		mkdir /oldusers-data
 		chown root:root /oldusers-data
@@ -77,16 +86,16 @@ fastusrchg() {
 	##Add needed users
 	echo "Want to add users? (Y|N)"
 	read confirmaddusers
-	if [ "$confirmaddusers" = "Y" ] || [ "$confirmaddusers" = "y"]
+	if [ "$confirmaddusers" = "Y" ] || [ "$confirmaddusers" = "y" ]
 	then
 		echo "Want to make new user have sudo permissions? (Y|N)"
 		read addsudos
-		if [ "$addsudos" = "Y" ] || [ "$addsudos" = "y"]
+		if [ "$addsudos" = "Y" ] || [ "$addsudos" = "y" ]
 		then
 			useradd -s /path/to/shell -d /home/$addme -m -G sudo $addme
 			echo "done adding users"
 		fi
-		if [ "$addsudos" = "N" ] || [ "$addsudos" = "n"]
+		if [ "$addsudos" = "N" ] || [ "$addsudos" = "n" ]
 		then
 			useradd -s /path/to/shell -d /home/$addme -m -G user $addme
 			echo "done adding users"
@@ -96,7 +105,7 @@ fastusrchg() {
 	##Change user types
 	echo "Want to make $chgtype an administrator?(Y|N)"
 	read wantadmin
-	if [ "$wantadmin" = "Y" ] || [ "$wantadmin" = "y"]
+	if [ "$wantadmin" = "Y" ] || [ "$wantadmin" = "y" ]
 	then
 		echo "Changing user $chgtype an admin..."
 		sudo gpasswd -a $chgtype sudo
@@ -106,7 +115,7 @@ fastusrchg() {
 	then
 		echo "Want to make $chgtypetouser a user? (Y|N)"
 		read wantuser
-		if [ "$wantuser" = "Y" ] || [ "$wantuser" = "y"]
+		if [ "$wantuser" = "Y" ] || [ "$wantuser" = "y" ]
 		then
 			echo "Changing admin $chgtypetouser to user..."
 			sudo gpasswd -d $chgtypetouser sudo
@@ -176,7 +185,7 @@ auditpolicies() {
 	##Audit settings
 	echo "Want to change audit settings? (Y|N)"
 	read chgaudit
-	if [ "$chgaudit" = "Y" ] || [ "$chgaudit" = "y"]
+	if [ "$chgaudit" = "Y" ] || [ "$chgaudit" = "y" ]
 	then
 		echo "Opening audit settings..."
 		gedit /etc/audit/auditd.conf
