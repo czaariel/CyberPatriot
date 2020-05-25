@@ -13,6 +13,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
         1. Help with 
   
 1. Secure root
+
         set `PermitRootLogin no` in `/etc/ssh/sshd_config`
     
               In order to gain ownership of the file, you can do:
@@ -21,6 +22,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
               sudo chown $whoyouareloggedinas /etc/ssh/sshd_config
               gedit /etc/ssh/sshd_config
               ````
+
 
 1. Secure Users
         1. Disable the guest user
