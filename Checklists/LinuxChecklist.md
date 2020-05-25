@@ -16,7 +16,9 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 
         set `PermitRootLogin no` in `/etc/ssh/sshd_config`
     
+    
               In order to gain ownership of the file, you can do:
+
 
               ````
               sudo chown $whoyouareloggedinas /etc/ssh/sshd_config
@@ -25,6 +27,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 
 
 1. Secure Users
+
         1. Disable the guest user
               
               Go to `/etc/lightdm/lightdm.conf` and add the line
