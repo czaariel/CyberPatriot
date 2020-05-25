@@ -13,23 +13,6 @@ cont() {
 	clear
 }
 
-##Create a function to run all functions, make it easier to organize
-runAll() {
-	clear
-	
-	updates
-	netstats
-	fastusrchg
-	passwordConf
-	disrootandguest
-	auditingpolicies
-	removethese
-	firewallconfig
-	newtestfunc
-	iptablesconfig
-	filesconfig
-	
-}
 
 
 ##Update programs and systems
@@ -402,7 +385,7 @@ filesconfig() {
 }
 
 startingmenu() {
-
+	clear
 	echo "
 
 	  ---------------------------------------------------------------------------------
