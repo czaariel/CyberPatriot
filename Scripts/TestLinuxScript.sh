@@ -65,7 +65,7 @@ fastusrchg() {
 	##Delete unwanted users
 	echo "need to delete any users (Y|N)?"
 	read confirmdeleteusers
-	if [ "$confirmdeleteusers" = "Y" ]||[ "$confirmdeleteusers" = "y"]
+	if [ "$confirmdeleteusers" = "Y" ] || [ "$confirmdeleteusers" = "y"]
 	then
 		mkdir /oldusers-data
 		chown root:root /oldusers-data
@@ -77,7 +77,7 @@ fastusrchg() {
 	##Add needed users
 	echo "Want to add users? (Y|N)"
 	read confirmaddusers
-	if [ "$confirmaddusers" = "Y" ]||[ "$confirmaddusers" = "y"]
+	if [ "$confirmaddusers" = "Y" ] || [ "$confirmaddusers" = "y"]
 	then
 		echo "Want to make new user have sudo permissions? (Y|N)"
 		read addsudos
@@ -405,46 +405,46 @@ startingmenu() {
 	"
 	read pleasegoto
 
-	if [ "$pleasegoto" = "1" ] || [ "$pleasegoto" = "one"]
+	if [ "$pleasegoto" = "1" ] || [ "$pleasegoto" = "one" ]
 	then
 	    updates
 	    startingmenu
-	elif [ "$pleasegoto" = "2" ] || [ "$pleasegoto" = "two"]
+	elif [ "$pleasegoto" = "2" ] || [ "$pleasegoto" = "two" ]
 	then
 	    netstats
 	    startingmenu
-	elif [ "$pleasegoto" = "3" ] || [ "$pleasegoto" = "three"]
+	elif [ "$pleasegoto" = "3" ] || [ "$pleasegoto" = "three" ]
 	then
 	    fastusrchg
 	    startingmenu
-	elif [ "$pleasegoto" = "4" ] || [ "$pleasegoto" = "four"]
+	elif [ "$pleasegoto" = "4" ] || [ "$pleasegoto" = "four" ]
 	then
 	    passwordConf
 	    startingmenu
-	elif [ "$pleasegoto" = "5" ] || [ "$pleasegoto" = "five"]
+	elif [ "$pleasegoto" = "5" ] || [ "$pleasegoto" = "five" ]
 	then
 	    disrootandguest
 	    startingmenu
-	elif [ "$pleasegoto" = "6" ] || [ "$pleasegoto" = "six"]
+	elif [ "$pleasegoto" = "6" ] || [ "$pleasegoto" = "six" ]
 	then
 	    auditingpolicies
 	    startingmenu
-	elif [ "$pleasegoto" = "7" ] || [ "$pleasegoto" = "seven"]
+	elif [ "$pleasegoto" = "7" ] || [ "$pleasegoto" = "seven" ]
 	then
 	    removethese
 	    startingmenu
-	elif [ "$pleasegoto" = "8" ] || [ "$pleasegoto" = "eight"]
+	elif [ "$pleasegoto" = "8" ] || [ "$pleasegoto" = "eight" ]
 	then
 	    firewallconfig
 	    startingmenu
-	elif [ "$pleasegoto" = "9" ] || [ "$pleasegoto" = "nine"]
+	elif [ "$pleasegoto" = "9" ] || [ "$pleasegoto" = "nine" ]
 	then
 	    echo "please rerun, the number 9 function is not currently working." #newtestfunc
-	elif [ "$pleasegoto" = "10" ] || [ "$pleasegoto" = "ten"]
+	elif [ "$pleasegoto" = "10" ] || [ "$pleasegoto" = "ten" ]
 	then
 	    iptablesconfig
 	    startingmenu
-	elif [ "$pleasegoto" = "11"] || [ "$pleasegoto" = "eleven"]
+	elif [ "$pleasegoto" = "11"] || [ "$pleasegoto" = "eleven" ]
 	then
 	    filesconfig
 	    startingmenu
