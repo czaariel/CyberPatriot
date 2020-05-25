@@ -117,14 +117,14 @@ fastusrchg() {
 	echo "Please go and make a file called userlist.txt"
 	cont
 	##Set their passwords
-	for i in $( cat userlist.txt ); do
-		useradd $i
-		echo "user $i added!"
-		echo $i:$i"123" | chpasswd 
-		##Their passwords become <username>123
-	done
-	echo "changed all passwords"
-	cont
+#	for i in $( cat userlist.txt ); do
+#		useradd $i
+#		echo "user $i added!"
+#		echo $i:$i"123" | chpasswd 
+#		##Their passwords become <username>123
+#	done
+#	echo "changed all passwords"
+#	cont
 	
 	##Change user passwords
 	for totalusers in $( cat userlist.txt ); do
@@ -132,7 +132,7 @@ fastusrchg() {
 		echo "user $totalusers has been added if they do not already exist!"
 		echo "CyberPatri0t!" | chpasswd $totalusers
 	done
-	echo "changed all passwords
+	echo "changed all passwords"
 }
 
 passwordConf() {
