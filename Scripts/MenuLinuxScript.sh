@@ -92,7 +92,7 @@ fastusrchg() {
 	
 	usersLength=${#users[@]}
 	
-	for (( i=0;i<$userLength;i++))
+	for (( i=0;i<$usersLength;i++))
 	do
 		clear
 		echo ${users[${i}]}
