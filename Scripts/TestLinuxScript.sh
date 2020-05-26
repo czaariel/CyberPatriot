@@ -136,10 +136,11 @@ fastusrchgold() {
 #	cont
 	
 	##Change user passwords
+	
 	for totalusers in $( cat userlist.txt ); do
 		useradd $totalusers
 		echo "user $totalusers has been added if they do not already exist!"
-		echo "CyberPatri0t!" | chpasswd $totalusers
+		sudo echo 'CyberPatri0t!\nCyberPatri0t!' | sudo chpasswd $totalusers
 	done
 	echo "changed all passwords"
 }
