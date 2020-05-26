@@ -61,6 +61,31 @@ fastusrchg() {
 	clear
 	echo "Please go and make sure you have all of the users properties that you need to change!"
 	cont
+	
+	echo "Do you need to add any users to the system?"
+	read addyn
+	if [ "$addyn" = "Y" ] || [ "$addyn" = "y" ]
+	then
+		echo "Please list all users you need to add with a space in between them... ex: tom bob joe"
+		read -a needaddusers
+		
+		needaddusersLength=${#needaddusers[@]}
+		
+		for (( i=0;i<$needaddusersLength;i++))
+		do
+			clear
+			echo ${needaddusers[${i}]}
+			sudo useradd ${needaddusers[${i}]}
+			sudo mkdir /home/${needaddusers[${i}]}
+			sudo chown ${needaddusers[${i}]} /home/${needaddusers[${i}]}
+			sudo chgrp ${needaddusers[${i}]} /home/${needaddusers[${i}]}
+			echo Finished creating user ${needaddusers[${i}]}
+		done
+	else
+		echo "Moving on"
+		clear
+	fi
+
 	echo "Please list all users on the system with a space in between... ex: tom bob joe"
 	read -a users
 	
@@ -106,85 +131,6 @@ fastusrchg() {
 	
 	
 			
-}
-##This is a list of variables used in if statements below... change the users to the correct usernames before running...
-deleteme="Tommy"
-addme="Jeremy"
-chgtype="bobby"
-chgtypetouser="Stephen"
-fastusrchgold() {
-	##Delete unwanted users
-	echo "need to delete any users (Y|N)?"
-	read confirmdeleteusers
-	if [ "$confirmdeleteusers" = "Y" ] || [ "$confirmdeleteusers" = "y" ]
-	then
-		mkdir /oldusers-data
-		chown root:root /oldusers-data
-		chmod 0700 /oldusers-data
-		deluser --remove-home --backup-to /oldusers-data/ $deleteme
-		echo "done deleting user $deleteme"
-	fi
-
-	##Add needed users
-	echo "Want to add users? (Y|N)"
-	read confirmaddusers
-	if [ "$confirmaddusers" = "Y" ] || [ "$confirmaddusers" = "y" ]
-	then
-		echo "Want to make new user have sudo permissions? (Y|N)"
-		read addsudos
-		if [ "$addsudos" = "Y" ] || [ "$addsudos" = "y" ]
-		then
-			useradd -s /path/to/shell -d /home/$addme -m -G sudo $addme
-			echo "done adding users"
-		fi
-		if [ "$addsudos" = "N" ] || [ "$addsudos" = "n" ]
-		then
-			useradd -s /path/to/shell -d /home/$addme -m -G user $addme
-			echo "done adding users"
-		fi
-	fi
-	
-	##Change user types
-	echo "Want to make $chgtype an administrator?(Y|N)"
-	read wantadmin
-	if [ "$wantadmin" = "Y" ] || [ "$wantadmin" = "y" ]
-	then
-		echo "Changing user $chgtype an admin..."
-		sudo gpasswd -a $chgtype sudo
-		echo "Changed user $chgtype to admin"
-	fi
-	if [ "$wantadmin" = "N"] || [ "$wantadmin" = "n"]
-	then
-		echo "Want to make $chgtypetouser a user? (Y|N)"
-		read wantuser
-		if [ "$wantuser" = "Y" ] || [ "$wantuser" = "y" ]
-		then
-			echo "Changing admin $chgtypetouser to user..."
-			sudo gpasswd -d $chgtypetouser sudo
-		fi
-	fi
-			
-	##Create list of users
-	echo "Please go and make a file called userlist.txt"
-	cont
-	##Set their passwords
-#	for i in $( cat userlist.txt ); do
-#		useradd $i
-#		echo "user $i added!"
-#		echo $i:$i"123" | chpasswd 
-#		##Their passwords become <username>123
-#	done
-#	echo "changed all passwords"
-#	cont
-	
-	##Change user passwords
-	
-	for totalusers in $( cat userlist.txt ); do
-		useradd $totalusers
-		echo "user $totalusers has been added if they do not already exist!"
-		sudo echo 'CyberPatri0t!\nCyberPatri0t!' | sudo chpasswd $totalusers
-	done
-	echo "changed all passwords"
 }
 
 passwordConf() {
