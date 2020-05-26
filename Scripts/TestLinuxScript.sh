@@ -59,11 +59,41 @@ netstats() {
 fastusrchg() {
 	#Welcome and user listing
 	clear
-	echo "Have you noted all of the users allowed in the readme? If not, please go do so now."
+	echo "Please go and make sure you have all of the users properties that you need to change!"
 	cont
-	echo "Do you have any users you need to remove? (Y|N)"
-	read need2remove
-	if [ "$need2remove" = "Y" ] || [ "$need2remove" = "y" ]
+	echo "Please list all users on the system with a space in between... ex: tom bob joe"
+	read -a users
+	
+	usersLength=${#users[@]}
+	
+	for (( i=0;i<$userLength;i++))
+	do
+		clear
+		echo '${users[${i}]}'
+		echo 'Delete ${users[${i}]}? (Y|N)'
+		read deleteyn
+		if [ "$deleteyn" = "Y" ] || [ "$deleteyn" = "y" ]
+		then
+			userdel -r ${users[${i}]}
+			echo '${users[${i}]} has been deleted.'
+		else
+			echo 'Make ${users[${i}]} administrator? (Y|N)'
+			read adminyn
+			if [ "$adminyn" = "Y" ] || [ "$adminyn" = "y" ]
+			then
+				gpasswd -a ${users[${i}]} sudo
+				gpasswd -a ${users[${i}]} adm
+				gpasswd -a ${users[${i}]} lpadmin
+				gpasswd -a ${users[${i}]} sambashare
+				echo '${users[${i}]} is now an admin.'
+			else 
+				gpasswd -d ${users[${i}]} sudo
+				gpasswd -d ${users[${i}]} adm
+				gpasswd -d ${users[${i}]} lpadmin
+				gpasswd -d ${users[${i}]} sambashare
+				gpasswd -d ${users[${i}]} root
+				echo '${users[${i}]} is now a standard user.'
+			fi
 }
 ##This is a list of variables used in if statements below... change the users to the correct usernames before running...
 deleteme="Tommy"
@@ -233,16 +263,37 @@ removethese() {
 	sudo apt remove aisleriot gnome-mahjongg gnome-mines gnome-sudoku 
 	##Remove nmap and zenmap
 	sudo apt-get remove nmap
-	cont
+	wait
 	sudo apt-get purge nmap
-	cont
+	wait
 	sudo apt-get remove zennmap
-	cont
+	wait
 	sudo apt-get purge zenmap
-	cont
+	wait
 	sudo apt-get install auditd
-	cont
-	
+	wait
+	echo 'Want to disable telnet? (Y|N)'
+	read telnetyn
+	if [ "$telnetyn" = "y" ] || [ "$telnetyn" = "Y" ]
+	then
+		ufw deny telnet
+		ufw deny rtelnet
+		ufw deny telnets
+		apt-get purge telnet -y -qq
+		apt-get purge telnetd -y -qq
+		apt-get purge inetutils-telnetd -y -qq
+		apt-get purge telnet-ssl -y -qq
+		echo 'Telnet has been blocked on firewall and removed.'
+	elif [ "$telnetyn" = "n" ] || [ "$telnetyn" = "n" ]
+	then
+		ufw allow telnet
+		ufw allow rtelnet
+		ufw allow telnets
+		echo 'Telnet has been enabled.'
+	else
+		echo 'Unclear Response'
+	fi
+		
 
 }
 
@@ -264,15 +315,13 @@ firewallconfig() {
 	echo "nospoof on" | sudo tee -a /etc/host.conf
 	echo "Done setting up firewall"
 }
+
+
 newtestfunc() {
-	##disable telnet
-	echo "disable telnet; change disable to yes"
-	cont
-	gedit -w /etc/xinetd.d/telnet
-	echo "done?"
-	cont
-	/sbin/chkconfig telnet off
+	echo 'Skip'
+	
 }
+
 
 iptablesconfig() {
 	#Backup
