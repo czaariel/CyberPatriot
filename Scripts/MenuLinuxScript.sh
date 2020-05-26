@@ -18,28 +18,29 @@ cont() {
 ##Update programs and systems
 updates() {
 	sudo add-apt-repository -y ppa:libreoffice/ppa
-	sudo apt-get update -y
+	sudo apt-get update -y -qq
 	wait
-	sudo apt-get upgrade -y
+	sudo apt-get upgrade -y -qq
 	wait
-	sudo apt-get dist-upgrade -y
+	sudo apt-get dist-upgrade -y -qq
 	wait
-	killall firefox
+	killall firefox -y -qq
 	wait
-	sudo apt-get --purge --reinstall install firefox
+	sudo apt-get --purge --reinstall install firefox -y -qq
 	wait
-	sudo apt-get gksu
+	sudo apt-get gksu -y -qq
 	##Enable autoupdates
-	sudo apt-get install unattended-upgrades
+	clear
+	sudo apt-get install unattended-upgrades -y -qq
 	echo "Next step will enable unattended upgrades... press yes to make sure it works. Also make sure to get rid of // to enable all autoupdates"
 	cont
-	sudo dpkg-reconfigure --priority=low unattended-upgrades
+	sudo dpkg-reconfigure --priority=low unattended-upgrades -y -qq
 	nano /etc/apt/apt.conf.d/50unattended-upgrades
 	echo "automatic updates configured, visit settings to make sure"
 	cont
 	##Install clamav
 	echo "installing clamav"
-	sudo apt-get install clamav clamav-daemon
+	sudo apt-get install clamav clamav-daemon -y -qq
 	clamscan --version
 	echo "done installing clamav"
 	cont
