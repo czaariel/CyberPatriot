@@ -69,15 +69,15 @@ fastusrchg() {
 	for (( i=0;i<$userLength;i++))
 	do
 		clear
-		echo '${users[${i}]}'
-		echo 'Delete ${users[${i}]}? (Y|N)'
+		echo ${users[${i}]}
+		echo Delete ${users[${i}]}? (Y|N)
 		read deleteyn
 		if [ "$deleteyn" = "Y" ] || [ "$deleteyn" = "y" ]
 		then
 			userdel -r ${users[${i}]}
-			echo '${users[${i}]} has been deleted.'
+			echo ${users[${i}]} has been deleted.
 		else
-			echo 'Make ${users[${i}]} administrator? (Y|N)'
+			echo Make ${users[${i}]} administrator? (Y|N)
 			read adminyn
 			if [ "$adminyn" = "Y" ] || [ "$adminyn" = "y" ]
 			then
@@ -85,15 +85,27 @@ fastusrchg() {
 				gpasswd -a ${users[${i}]} adm
 				gpasswd -a ${users[${i}]} lpadmin
 				gpasswd -a ${users[${i}]} sambashare
-				echo '${users[${i}]} is now an admin.'
+				echo ${users[${i}]} is now an admin.
 			else 
 				gpasswd -d ${users[${i}]} sudo
 				gpasswd -d ${users[${i}]} adm
 				gpasswd -d ${users[${i}]} lpadmin
 				gpasswd -d ${users[${i}]} sambashare
 				gpasswd -d ${users[${i}]} root
-				echo '${users[${i}]} is now a standard user.'
+				echo ${users[${i}]} is now a standard user.
 			fi
+			
+			clear
+			echo Changing password for ${users[${i}]}.
+			sudo echo -e 'CyberPatri0t!\nCyberPatri0t!' | sudo passwd ${users[${i}]}
+			echo Done changing password for ${users[${i}]}.
+			
+		fi
+	done
+	clear
+	
+	
+			
 }
 ##This is a list of variables used in if statements below... change the users to the correct usernames before running...
 deleteme="Tommy"
