@@ -418,6 +418,7 @@ startingmenu() {
 	      9) *test function, please skip this*
 	      10) IP table configuration
 	      11) File Configuration
+	      12) Exit
 	  ---------------------------------------------------------------------------------
 	"
 	read pleasegoto
@@ -465,6 +466,8 @@ startingmenu() {
 	then
 	    filesconfig
 	    startingmenu
+	elif [ "$pleasegoto" = "12"] || [ "$pleasegoto" = "twelve" ]
+		exit
 	fi
 }
 
