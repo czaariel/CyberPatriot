@@ -95,14 +95,14 @@ fastusrchg() {
 	do
 		clear
 		echo ${users[${i}]}
-		echo Delete ${users[${i}]}? (Y|N)
+		echo Delete ${users[${i}]}? y or n
 		read deleteyn
 		if [ "$deleteyn" = "Y" ] || [ "$deleteyn" = "y" ]
 		then
 			userdel -r ${users[${i}]}
 			echo ${users[${i}]} has been deleted.
 		else
-			echo Make ${users[${i}]} administrator? (Y|N)
+			echo Make ${users[${i}]} administrator? y or n
 			read adminyn
 			if [ "$adminyn" = "Y" ] || [ "$adminyn" = "y" ]
 			then
