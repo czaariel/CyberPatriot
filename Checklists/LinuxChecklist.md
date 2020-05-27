@@ -77,7 +77,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 
 		1. Once you are done with that, to configure passwords, you can do:
                 
-                	`sudo echo -e 'CyberPatri0t!\nCyberPatri0t!' | sudo passwd $userthatneedsanewpassword`
+			`sudo echo -e 'CyberPatri0t!\nCyberPatri0t!' | sudo passwd $userthatneedsanewpassword`
                 
                         
 1. Secure root
