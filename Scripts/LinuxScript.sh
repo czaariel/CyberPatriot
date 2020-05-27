@@ -185,16 +185,7 @@ passwordConf() {
 	cont
 	gedit /etc/login.defs
 	cont
-	sudo apt-get install auditd
-	auditctl -e 1
-	echo "Want to change audit settings? (Y|N)"
-	read chgaudit
-	if [ "$chgaudit" = "Y" ] || [ "$chgaudit" = "y"]
-	then
-		echo "Opening audit settings..."
-		gedit /etc/audit/auditd.conf
-	fi
-	echo "Done with password restrictions, account policy, and audits. Move on to disabling root and guest login?"
+	echo "Done with password restrictions and account policy... Move on to disabling root and guest login?"
 	cont	
 }
 
@@ -224,42 +215,42 @@ disrootandguest() {
 	echo "Done disabling root"
 	cont
 	##Disable Guest access
-		#Get file perms
-		chown $loggedinas /etc/ssh/sshd_config
-	echo "disabling guest access"
-	echo "add the following: allow-guest=false into the file"
-	sudo gedit /etc/lightdm/lightdm.conf
-	echo "Done disabling guest access"
+	chown $loggedinas /etc/lightdm/lightdm.conf
+	sudo bash -c "echo 'allow-guest=false' >>/etc/lightdm/lightdm.conf"
+	echo "guest account has been disabled, please confirm after..."
 	cont
+	
+
 }
 
 removethese() {
+	clear
 	##Remove WireShark
 	echo  "Removing wireshark IF installed..."
-	sudo apt-get remove --purge wireshark
-	apt-get autoremove
+	sudo apt-get remove --purge wireshark -y -qq
+	apt-get autoremove -y -qq
 	echo "Done removing wireshark"
 	cont
+	clear
 	##Remove apache2
 	echo "Removing apache2 IF installed..."
-	sudo apt-get remove --purge apache2
-	apt-get autoremove
+	sudo apt-get remove --purge apache2 -y -qq
+	apt-get autoremove -y -qq
 	echo "Done removing apache2"
 	cont
+	clear
 	##Remove games
 	echo "Removing default games IF installed..."
-	sudo apt-get purge gnome-games-common gbrainy && sudo apt-get autoremove
-	sudo apt remove aisleriot gnome-mahjongg gnome-mines gnome-sudoku 
+	sudo apt-get purge gnome-games-common gbrainy && sudo apt-get autoremove -y -qq
+	sudo apt remove aisleriot gnome-mahjongg gnome-mines gnome-sudoku -y -qq
 	##Remove nmap and zenmap
-	sudo apt-get remove nmap
+	sudo apt-get remove nmap -y -qq
 	wait
-	sudo apt-get purge nmap
+	sudo apt-get purge nmap -y -qq
 	wait
-	sudo apt-get remove zennmap
+	sudo apt-get remove zennmap -y -qq
 	wait
-	sudo apt-get purge zenmap
-	wait
-	sudo apt-get install auditd
+	sudo apt-get purge zenmap -y -qq
 	wait
 	echo 'Want to disable telnet? (Y|N)'
 	read telnetyn
@@ -412,7 +403,7 @@ iptablesconfig() {
 
 filesconfig() {
 	echo "deleting unwanted files..."
-	rm -f *.mp3
+	rm -rf *.mp3
 	find / -name '*.mov' -type f -delete
 	find / -name '*.mp4' -type f -delete
 	find / -name '*.avi' -type f -delete
