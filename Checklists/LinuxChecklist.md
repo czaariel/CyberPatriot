@@ -78,6 +78,14 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 		1. Once you are done with that, to configure passwords, you can do:
                 
 			`sudo echo -e 'CyberPatri0t!\nCyberPatri0t!' | sudo passwd $userthatneedsanewpassword`
+	1. Password Policies
+	
+		1. Gain control of the file by typing `sudo chown $whoyouareloggedinas /etc/pam.d/common-password`. Then type `gedit /etc/pam.d/common-password`
+		
+		
+		1. Password History
+			
+			To change the password history, add `remember=5` to the end of the line with `pam_unix.so`
                 
                         
 1. Secure root
