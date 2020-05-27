@@ -3,16 +3,17 @@
 ## Notes
 
 When you see `$word` do not type it as is, replace it with what the variable is asking.
+
 #### Related to the script
 
-	Please note unauthorized use of this may result in disqualification from CyberPatriot competition
+Please note unauthorized use of this may result in disqualification from CyberPatriot competition
 	
-	Write down all passwords and answer forensics questions BEFORE running this script
+Write down all passwords and answer forensics questions BEFORE running this script
 
-	Important:
-	
+Important:
+
 		1) Read the read me to check what users need to be added/removed and whose password needs to be changed
-		
+
 		2) Make sure to write down all forensics questions and points earned incase the script messes up
 		
 		3) Save the file with a `.sh` ending. Example: `linuxscript.sh`
