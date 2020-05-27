@@ -4,25 +4,25 @@
 
 When you see `$word` do not type it as is, replace it with what the variable is asking.
 
-#### Related to the script
+**Related to the Script**
 
 Please note unauthorized use of this may result in disqualification from CyberPatriot competition
 	
 Write down all passwords and answer forensics questions BEFORE running this script
 
-Important:
-	
-Read the read me to check what users need to be added/removed
-	
-Make sure to write down all forensics questions answers and points earned incase the script messes up
-		
-Save the file with a `.sh` ending. Example: `linuxscript.sh`
-				
-Check all capitalization and spelling
-		
-Use "sudo bash linuxscript.sh" to run file when ready
+	***Important***
 
-You will have to be in the right directory to run. For example, if the script is saved on the desktop, you have to use `cd /home/$currentuser/Desktop`
+	Read the read me to check what users need to be added/removed
+
+	Make sure to write down all forensics questions answers and points earned incase the script messes up
+
+	Save the file with a `.sh` ending. Example: `linuxscript.sh`
+
+	Check all capitalization and spelling
+
+	Use "sudo bash linuxscript.sh" to run file when ready
+
+	You will have to be in the right directory to run. For example, if the script is saved on the desktop, you have to use `cd /home/$currentuser/Desktop`
 
 
 ## Checklist
