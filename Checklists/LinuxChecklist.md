@@ -26,7 +26,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 
 
 
-1. If Script fails do this; if it works, go to step 4.
+1. If the script works, then skip to step 4, otherwise, do this step!
 
 	1. Configure Updates and Install Clamav
 		
