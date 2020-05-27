@@ -86,7 +86,54 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 		1. Password History
 			
 			To change the password history, add `remember=5` to the end of the line with `pam_unix.so`
+			
+		1. Password length
+		
+			To change the password length, add `minlen=10` to the end of the line with `pam_unix.so`
+
+		1. Complexity Requirements
+		
+			To change the complexity requirements, add `ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1` to the end of the line with `pam_cracklib.so`
+			If `pam_cracklib.so` is not found, type: `sudo apt-get install libpam-cracklib`
+
+	1. Account Policies
+	
+		1. Gain control of the file by typing `sudo chown $whoyouareloggedinas /etc/login.defs`. Then type `gedit /etc/login.defs`. 
+				
+		1. Change `PASS_MAX_DAYS to 90`, `PASS_MIN_DAYS to 10`, and `PASS_WARN_AGE to 7`.
                 
+		1. Gain control of the next file by typing `sudo chown $whoyouareloggedinas /etc/pam.d/common-auth`. Then do `gedit /etc/pam.d/common-auth`
+		
+		1. Add the following to the end of the file: `auth required pam_tally2.so deny 5 onerr=fail unlock_time=1800`
+		
+	1. Audit Policies
+		
+		1. To Install and turn on audits, type:
+		
+			````
+			sudo apt-get install auditd
+			auditctl -e 1
+			````
+		
+		1. If you need to configure the audits: `gedit /etc/audit/auditd.conf`
+		
+	1. Disable Root and Guest login
+		
+		1. Disable root
+		
+			First type: `sudo apt-get install openssh-server`
+			
+			Then use `sudo systemctl status ssh` to make sure it is working.
+			
+			Take control of the file: `sudo chown $whoyouareloggedinas /etc/ssh/sshd_config`
+			
+			Open the file using `gedit /etc/ssh/sshd_config`
+			
+			Change `PermitRootLogin` to `no`
+
+		1. Disable Guest
+			
+
                         
 1. Secure root
 
