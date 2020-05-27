@@ -12,17 +12,17 @@ Write down all passwords and answer forensics questions BEFORE running this scri
 
 Important:
 
-		1) Read the read me to check what users need to be added/removed and whose password needs to be changed
-
-		2) Make sure to write down all forensics questions and points earned incase the script messes up
+	1) Read the read me to check what users need to be added/removed and whose password needs to be changed
 		
-		3) Save the file with a `.sh` ending. Example: `linuxscript.sh`
+	2) Make sure to write down all forensics questions and points earned incase the script messes up
+		
+	3) Save the file with a `.sh` ending. Example: `linuxscript.sh`
 				
-		4) Check all capitalization and spelling
+	4) Check all capitalization and spelling
 		
-		5) Use "sudo bash linuxscript.sh" to run file when ready
+	5) Use "sudo bash linuxscript.sh" to run file when ready
 		
-		6) You will have to be in the right directory to run. For example, if the script is saved on the desktop, you have to use `cd /home/$currentuser/Desktop`
+	6) You will have to be in the right directory to run. For example, if the script is saved on the desktop, you have to use `cd /home/$currentuser/Desktop`
 
 
 ## Checklist
