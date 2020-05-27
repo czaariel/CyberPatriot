@@ -47,12 +47,14 @@ When you see `$word` do not type it as is, replace it with what the variable is 
                 ````
 	1. User Management
 		
-		If you want to add a user, do: 
+		If you want to add a user, do:
 			
-                        sudo useradd $theuseryouwanttoadd
-                        sudo mkdir /home/$theuseryouwanttoadd
-                        sudo chown $theuseryouwanttoadd /home/$theuseryouwanttoadd
+			````			
+			sudo useradd $theuseryouwanttoadd
+			sudo mkdir /home/$theuseryouwanttoadd
+			sudo chown $theuseryouwanttoadd /home/$theuseryouwanttoadd
 			sudo chgrp $theuseryouwanttoadd /home/$theuseryouwanttoadd
+			````
                         
                 If you want to delete a user do: `userdel -r $userthatyouwanttodelete`
                 
