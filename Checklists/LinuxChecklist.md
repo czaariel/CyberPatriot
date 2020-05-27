@@ -29,6 +29,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 
         1. Configure Updates and Install Clamav
         
+        
                 ````
                 sudo add-apt-repository -y ppa:libreoffice/ppa
                 sudo apt-get update -y -qq
@@ -37,6 +38,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
                 sudo apt-get gksu -y -qq
                 sudo apt-get install p7zip-full
                 ````
+                
                 ````
                 killall firefox -y -qq
                 sudo apt-get --purge --reinstall install firefox -y -qq
