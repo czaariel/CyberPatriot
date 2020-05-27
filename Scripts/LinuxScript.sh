@@ -417,7 +417,7 @@ iptablesconfig() {
 
 filesconfig() {
 	echo "deleting unwanted files..."
-	find / -name '*.mp3' -type f -delete
+	rm -f *.mp3
 	find / -name '*.mov' -type f -delete
 	find / -name '*.mp4' -type f -delete
 	find / -name '*.avi' -type f -delete
