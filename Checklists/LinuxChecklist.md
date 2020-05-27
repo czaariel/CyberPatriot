@@ -21,7 +21,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 1. Read the README (2 times: once before Forensics Questions, once after you read them)
 
 1. Do the Forensics Questions
-
+	
         1. Help with 
 
 
@@ -29,8 +29,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 1. If Script fails do this; if it works, go to step 4.
 
 	1. Configure Updates and Install Clamav
-        	
-        
+		
                 ````
                 sudo add-apt-repository -y ppa:libreoffice/ppa
                 sudo apt-get update -y -qq
@@ -47,7 +46,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
                 clamscan --version
                 ````
         1. User Management
-                
+		
                 If you want to add a user, do:
                         
                         ````
@@ -60,7 +59,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
                 If you want to delete a user do: `userdel -r $userthatyouwanttodelete`
                 
                 If you want to make a user an admin do: 
-                
+                	
                         ````
                         gpasswd -a $userthatneedsadmin sudo
 		        gpasswd -a $userthatneedsadmin adm
@@ -69,7 +68,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
                         ````
 
                 If you want to make a user a normal user do:
-                
+                	
                         ````                
                         gpasswd -a $userthatneedsadmin sudo
 		        gpasswd -a $userthatneedsadmin adm
