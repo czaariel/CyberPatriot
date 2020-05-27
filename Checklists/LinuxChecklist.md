@@ -47,7 +47,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
                 ````
 	1. User Management
 		
-		If you want to add a user, do:
+		1. If you want to add a user, do:
 			
 			````			
 			sudo useradd $theuseryouwanttoadd
@@ -56,25 +56,25 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 			sudo chgrp $theuseryouwanttoadd /home/$theuseryouwanttoadd
 			````
                         
-                If you want to delete a user do: `userdel -r $userthatyouwanttodelete`
+                1. If you want to delete a user do: `userdel -r $userthatyouwanttodelete`
                 
-                If you want to make a user an admin do: 
+                1. If you want to make a user an admin do: 
                 	
-                        ````
-                        gpasswd -a $userthatneedsadmin sudo
-		        gpasswd -a $userthatneedsadmin adm
+			````
+			gpasswd -a $userthatneedsadmin sudo
+			gpasswd -a $userthatneedsadmin adm
 			gpasswd -a $userthatneedsadmin lpadmin
 			gpasswd -a $userthatneedsadmin sambashare
-                        ````
+			````
 
-                If you want to make a user a normal user do:
+                1. If you want to make a user a normal user do:
                 	
-                        ````                
-                        gpasswd -a $userthatneedsadmin sudo
-		        gpasswd -a $userthatneedsadmin adm
+			````                
+			gpasswd -a $userthatneedsadmin sudo
+			gpasswd -a $userthatneedsadmin adm
 			gpasswd -a $userthatneedsadmin lpadmin
 			gpasswd -a $userthatneedsadmin sambashare    
-                        ````
+			````
 
                 Once you are done with that, to configure passwords, you can do:
                 
