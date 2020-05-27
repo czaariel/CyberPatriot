@@ -37,9 +37,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
                 sudo apt-get dist-upgrade -y -qq
                 sudo apt-get gksu -y -qq
                 sudo apt-get install p7zip-full
-                ````
                 
-                ````
                 killall firefox -y -qq
                 sudo apt-get --purge --reinstall install firefox -y -qq
                 sudo apt-get install clamav clamav-daemon -y -qq
@@ -76,9 +74,9 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 			gpasswd -a $userthatneedsadmin sambashare    
 			````
 
-                Once you are done with that, to configure passwords, you can do:
+		1. Once you are done with that, to configure passwords, you can do:
                 
-                `sudo echo -e 'CyberPatri0t!\nCyberPatri0t!' | sudo passwd $userthatneedsanewpassword`
+                	`sudo echo -e 'CyberPatri0t!\nCyberPatri0t!' | sudo passwd $userthatneedsanewpassword`
                 
                         
 1. Secure root
