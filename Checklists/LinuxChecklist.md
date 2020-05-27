@@ -4,16 +4,24 @@
 
 When you see `$word` do not type it as is, replace it with what the variable is asking.
 #### Related to the script
-        Please note unauthorized use of this may result in disqualification from CyberPatriot competition
-        Write down all passwords and answer forensics questions BEFORE running this script
 
-        Important:
-        1) Read the read me to check what users need to be added/removed and whose password needs to be changed
-        2) Make sure to write down all forensics questions and points earned incase the script messes up
-         3) Check the users and replace them into the variables located near the password and userchange function function 
-         4) Check all capitalization and spelling
-         5) Use "sudo bash linuxscript.sh" to run file when ready
-         6) NOTES: ADD A MENU FOR SCRIPT!; ADD 
+	Please note unauthorized use of this may result in disqualification from CyberPatriot competition
+	
+	Write down all passwords and answer forensics questions BEFORE running this script
+
+	Important:
+	
+		1) Read the read me to check what users need to be added/removed and whose password needs to be changed
+		
+		2) Make sure to write down all forensics questions and points earned incase the script messes up
+		
+		3) Save the file with a `.sh` ending. Example: `linuxscript.sh`
+				
+		4) Check all capitalization and spelling
+		
+		5) Use "sudo bash linuxscript.sh" to run file when ready
+		
+		6) You will have to be in the right directory to run. For example, if the script is saved on the desktop, you have to use `cd /home/$currentuser/Desktop`
 
 
 ## Checklist
@@ -132,6 +140,79 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 			Change `PermitRootLogin` to `no`
 
 		1. Disable Guest
+		
+			First type: `sudo chown $whoyouareloggedinas /etc/lightdm/lightdm.conf
+			
+			Then edit file using `gedit /etc/lightdm/lightdm.conf`
+			
+			Add `allow-guest=false` into the file
+			
+	1. Remove harmful programs
+		
+		1. Remove specific apps
+		
+			````
+			sudo apt-get remove --purge wireshark
+			sudo apt-get autoremove
+			````
+			
+		1. Remove Default Games
+		
+			````
+			sudo apt-get purge gnome-games-common gbrainy && sudo apt-get autoremove
+			sudo apt-get remove aisleriot gnome-mahjongg gnome-mines gnome-sudoku
+			````
+			
+		1. Remove Nmap and Zenmap
+		
+			````
+			sudo apt-get remove nmap
+			sudo apt-get purge nmap
+			sudo apt-get remove zenmap
+			sudo apt-get purge zenmap
+			````
+			
+		1. Disable Telnet
+		
+			````
+			ufw deny telnet
+			ufw deny rtelnet
+			ufw deny telnets
+			apt-get purge telnet -y 
+			apt-get purge telnetd -y
+			apt-get purge inetutils-telnetd -y
+			apt-get purge telnet-ssl -y
+			````
+			
+	1. Firewall Configurations
+	
+		````
+		sudo apt-get install ufw -y
+		sudo apt-get upgrade ufw -y
+		sudo ufw enable
+		sysctl -n net.ipv4.tcp_syncookies
+		echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf
+		echo 0 | sudo tee /proc/sys/net/ipv4/ip_forward
+		````
+		
+	1. File Configs (MAKE SURE ALL FORENSICS QUESTIONS ARE COMPLETED)
+	
+		In order to delete all instances of a file, you can use: 
+		
+		````
+		sudo find / -name '*.$fileending' -type f -delete
+		````
+		
+		or
+		
+		````
+		sudo rm -rf *.$fileending
+		````
+		
+		For example, to delete all mp3 files, you can use `sudo rm -rf *.mp3` or `sudo find / -name '*.mp3' -type f -delete`
+		
+1. 
+
 			
 
                         
