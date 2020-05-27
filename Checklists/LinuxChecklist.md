@@ -22,7 +22,28 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 
 1. Do the Forensics Questions
         1. Help with 
-  
+
+
+
+1. If Script fails do this; if it works, go to step 4.
+
+        1. Configure Updates and Install Clamav
+        
+                ````
+                sudo add-apt-repository -y ppa:libreoffice/ppa
+                sudo apt-get update -y -qq
+                sudo apt-get upgrade -y -qq
+                sudo apt-get dist-upgrade -y -qq
+                sudo apt-get gksu -y -qq
+                sudo apt-get install p7zip-full
+                ````
+                ````
+                killall firefox -y -qq
+                sudo apt-get --purge --reinstall install firefox -y -qq
+                sudo apt-get install clamav clamav-daemon -y -qq
+                clamscan --version
+                ````
+                
 1. Secure root
 
         set `PermitRootLogin no` in `/etc/ssh/sshd_config`
@@ -54,7 +75,9 @@ When you see `$word` do not type it as is, replace it with what the variable is 
                 `sudo userdel -r $userthatshouldbedeleted`
                 
                 `sudo groupdel $userthatshouldbedeleted`
+                
         1. Check `/etc/sudoers.d` and make sure only members of the group sudo can sudo
+        
         
         
         
