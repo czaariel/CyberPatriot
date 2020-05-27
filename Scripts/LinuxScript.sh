@@ -48,6 +48,8 @@ runAll() {
 
 ##Update programs and systems
 updates() {
+	clear
+	echo "Starting updates and upgrades, please wait."
 	sudo add-apt-repository -y ppa:libreoffice/ppa
 	sudo apt-get update -y -qq
 	wait
