@@ -30,19 +30,20 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 
 	1. Configure Updates and Install Clamav
 		
-                ````
-                sudo add-apt-repository -y ppa:libreoffice/ppa
-                sudo apt-get update -y -qq
-                sudo apt-get upgrade -y -qq
-                sudo apt-get dist-upgrade -y -qq
-                sudo apt-get gksu -y -qq
-                sudo apt-get install p7zip-full
-                
-                killall firefox -y -qq
-                sudo apt-get --purge --reinstall install firefox -y -qq
-                sudo apt-get install clamav clamav-daemon -y -qq
-                clamscan --version
-                ````
+		````
+		sudo add-apt-repository -y ppa:libreoffice/ppa
+		sudo apt-get update -y -qq
+		sudo apt-get upgrade -y -qq
+		sudo apt-get dist-upgrade -y -qq
+		sudo apt-get gksu -y -qq
+		sudo apt-get install p7zip-full
+
+		killall firefox -y -qq
+		sudo apt-get --purge --reinstall install firefox -y -qq
+		sudo apt-get install clamav clamav-daemon -y -qq
+		clamscan --version
+		````
+		
 	1. User Management
 		
 		1. If you want to add a user, do:
