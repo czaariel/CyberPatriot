@@ -60,6 +60,7 @@ updates() {
 	cont
 	sudo dpkg-reconfigure --priority=low unattended-upgrades -y -qq
 	nano /etc/apt/apt.conf.d/50unattended-upgrades
+	clear
 	echo "automatic updates configured, visit settings to make sure"
 	cont
 	##Install clamav
@@ -106,6 +107,7 @@ fastusrchg() {
 			sudo chgrp ${needaddusers[${i}]} /home/${needaddusers[${i}]}
 			echo Finished creating user ${needaddusers[${i}]}
 		done
+		clear
 	else
 		echo "Moving on"
 		clear
