@@ -56,9 +56,9 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 			sudo chgrp $theuseryouwanttoadd /home/$theuseryouwanttoadd
 			````
                         
-                1. If you want to delete a user do: `userdel -r $userthatyouwanttodelete`
+		1. If you want to delete a user do: `userdel -r $userthatyouwanttodelete`
                 
-                1. If you want to make a user an admin do: 
+		1. If you want to make a user an admin do: 
                 	
 			````
 			gpasswd -a $userthatneedsadmin sudo
@@ -67,7 +67,7 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 			gpasswd -a $userthatneedsadmin sambashare
 			````
 
-                1. If you want to make a user a normal user do:
+		1. If you want to make a user a normal user do:
                 	
 			````                
 			gpasswd -a $userthatneedsadmin sudo
