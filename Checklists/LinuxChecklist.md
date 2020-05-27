@@ -28,8 +28,8 @@ When you see `$word` do not type it as is, replace it with what the variable is 
 
 1. If Script fails do this; if it works, go to step 4.
 
-        1. Configure Updates and Install Clamav
-        
+	1. Configure Updates and Install Clamav
+        	
         
                 ````
                 sudo add-apt-repository -y ppa:libreoffice/ppa
