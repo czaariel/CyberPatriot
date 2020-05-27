@@ -3,6 +3,17 @@
 ## Notes
 
 When you see `$word` do not type it as is, replace it with what the variable is asking.
+#### Related to the script
+        Please note unauthorized use of this may result in disqualification from CyberPatriot competition
+        Write down all passwords and answer forensics questions BEFORE running this script
+
+        Important:
+        1) Read the read me to check what users need to be added/removed and whose password needs to be changed
+        2) Make sure to write down all forensics questions and points earned incase the script messes up
+         3) Check the users and replace them into the variables located near the password and userchange function function 
+         4) Check all capitalization and spelling
+         5) Use "sudo bash linuxscript.sh" to run file when ready
+         6) NOTES: ADD A MENU FOR SCRIPT!; ADD 
 
 
 ## Checklist
@@ -44,3 +55,14 @@ When you see `$word` do not type it as is, replace it with what the variable is 
                 
                 `sudo groupdel $userthatshouldbedeleted`
         1. Check `/etc/sudoers.d` and make sure only members of the group sudo can sudo
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
