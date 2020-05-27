@@ -14,7 +14,6 @@
 #Understand/Set basic variables
 echo "Who are you logged in as? (ex: bwayne)"
 read loggedinas
-echo "Please go and make a file called userlist.txt"
 
 ##Create a function to be able to decide to move on or not...
 cont() {
@@ -33,8 +32,8 @@ runAll() {
 	clear
 	
 	updates
-	netstats
-	fastusrchg
+	networkstats
+	userconfig
 	passwordConf
 	disrootandguest
 	auditingpolicies
@@ -49,35 +48,35 @@ runAll() {
 
 ##Update programs and systems
 updates() {
-	echo "setting updates"
-	sudo apt-get purge gedit
-	sudo apt-get install gedit
-	##Start with firefox
-	killall firefox
+	sudo add-apt-repository -y ppa:libreoffice/ppa
+	sudo apt-get update -y -qq
 	wait
-	sudo apt-get update
-	sudo apt-get --purge --reinstall install firefox
+	sudo apt-get upgrade -y -qq
 	wait
-	sudo apt-get upgrade
-	sudo apt-get dist-upgrade
-	sudo apt-get gksu
+	sudo apt-get dist-upgrade -y -qq
+	wait
+	killall firefox -y -qq
+	wait
+	sudo apt-get --purge --reinstall install firefox -y -qq
+	wait
+	sudo apt-get gksu -y -qq
 	##Enable autoupdates
-	sudo apt-get install unattended-upgrades
+	clear
+	sudo apt-get install unattended-upgrades -y -qq
 	echo "Next step will enable unattended upgrades... press yes to make sure it works. Also make sure to get rid of // to enable all autoupdates"
 	cont
-	sudo dpkg-reconfigure --priority=low unattended-upgrades
+	sudo dpkg-reconfigure --priority=low unattended-upgrades -y -qq
 	nano /etc/apt/apt.conf.d/50unattended-upgrades
 	echo "automatic updates configured, visit settings to make sure"
 	cont
 	##Install clamav
 	echo "installing clamav"
-	sudo apt-get install clamav clamav-daemon
+	sudo apt-get install clamav clamav-daemon -y -qq
 	clamscan --version
 	echo "done installing clamav"
 	cont
 	##Update 7-Zip
 	sudo apt-get install p7zip-full
-
 }
 
 ##Look at ports and which aplications are using them
@@ -89,74 +88,78 @@ netstats() {
 }
 
 ##This is a list of variables used in if statements below... change the users to the correct usernames before running...
-deleteme="Tommy"
-addme="Jeremy"
-chgtype="bobby"
-chgtypetouser="Stephen"
 fastusrchg() {
-	##Delete unwanted users
-	echo "need to delete any users (Y|N)?"
-	read confirmdeleteusers
-	if [ "$confirmdeleteusers" = "Y" ]||[ "$confirmdeleteusers" = "y"]
+	#Welcome and user listing
+	clear
+	echo "Please go and make sure you have all of the users properties that you need to change!"
+	cont
+	
+	echo "Do you need to add any users to the system?"
+	read addyn
+	if [ "$addyn" = "Y" ] || [ "$addyn" = "y" ]
 	then
-		mkdir /oldusers-data
-		chown root:root /oldusers-data
-		chmod 0700 /oldusers-data
-		deluser --remove-home --backup-to /oldusers-data/ $deleteme
-		echo "done deleting user $deleteme"
+		echo "Please list all users you need to add with a space in between them... ex: tom bob joe"
+		read -a needaddusers
+		
+		needaddusersLength=${#needaddusers[@]}
+		
+		for (( i=0;i<$needaddusersLength;i++))
+		do
+			clear
+			echo ${needaddusers[${i}]}
+			sudo useradd ${needaddusers[${i}]}
+			sudo mkdir /home/${needaddusers[${i}]}
+			sudo chown ${needaddusers[${i}]} /home/${needaddusers[${i}]}
+			sudo chgrp ${needaddusers[${i}]} /home/${needaddusers[${i}]}
+			echo Finished creating user ${needaddusers[${i}]}
+		done
+	else
+		echo "Moving on"
+		clear
 	fi
 
-	##Add needed users
-	echo "Want to add users? (Y|N)"
-	read confirmaddusers
-	if [ "$confirmaddusers" = "Y" ]||[ "$confirmaddusers" = "y"]
-	then
-		echo "Want to make new user have sudo permissions? (Y|N)"
-		read addsudos
-		if [ "$addsudos" = "Y" ] || [ "$addsudos" = "y"]
-		then
-			useradd -s /path/to/shell -d /home/$addme -m -G sudo $addme
-			echo "done adding users"
-		fi
-		if [ "$addsudos" = "N" ] || [ "$addsudos" = "n"]
-		then
-			useradd -s /path/to/shell -d /home/$addme -m -G user $addme
-			echo "done adding users"
-		fi
-	fi
+	echo "Please list all users on the system with a space in between... ex: tom bob joe"
+	read -a users
 	
-	##Change user types
-	echo "Want to make $chgtype an administrator?(Y|N)"
-	read wantadmin
-	if [ "$wantadmin" = "Y" ] || [ "$wantadmin" = "y"]
-	then
-		echo "Changing user $chgtype an admin..."
-		sudo gpasswd -a $chgtype sudo
-		echo "Changed user $chgtype to admin"
-	fi
-	if [ "$wantadmin" = "N"] || [ "$wantadmin" = "n"]
-	then
-		echo "Want to make $chgtypetouser a user? (Y|N)"
-		read wantuser
-		if [ "$wantuser" = "Y" ] || [ "$wantuser" = "y"]
+	usersLength=${#users[@]}
+	
+	for (( i=0;i<$usersLength;i++))
+	do
+		clear
+		echo ${users[${i}]}
+		echo Delete ${users[${i}]}? y or n
+		read deleteyn
+		if [ "$deleteyn" = "Y" ] || [ "$deleteyn" = "y" ]
 		then
-			echo "Changing admin $chgtypetouser to user..."
-			sudo gpasswd -d $chgtypetouser sudo
-		fi
-	fi
+			userdel -r ${users[${i}]}
+			echo ${users[${i}]} has been deleted.
+		else
+			echo Make ${users[${i}]} administrator? y or n
+			read adminyn
+			if [ "$adminyn" = "Y" ] || [ "$adminyn" = "y" ]
+			then
+				gpasswd -a ${users[${i}]} sudo
+				gpasswd -a ${users[${i}]} adm
+				gpasswd -a ${users[${i}]} lpadmin
+				gpasswd -a ${users[${i}]} sambashare
+				echo ${users[${i}]} is now an admin.
+			else 
+				gpasswd -d ${users[${i}]} sudo
+				gpasswd -d ${users[${i}]} adm
+				gpasswd -d ${users[${i}]} lpadmin
+				gpasswd -d ${users[${i}]} sambashare
+				gpasswd -d ${users[${i}]} root
+				echo ${users[${i}]} is now a standard user.
+			fi
 			
-	##Create list of users
-	echo "Please go and make a file called userlist.txt"
-	cont
-	##Set their passwords
-	for i in $( cat userlist.txt ); do
-		useradd $i
-		echo "user $i added!"
-		echo $i:$i"123" | chpasswd 
-		##Their passwords become <username>123
+			clear
+			echo Changing password for ${users[${i}]}.
+			sudo echo -e 'CyberPatri0t!\nCyberPatri0t!' | sudo passwd ${users[${i}]}
+			echo Done changing password for ${users[${i}]}.
+			
+		fi
 	done
-	echo "changed all passwords"
-	cont
+	clear
 }
 
 passwordConf() {
@@ -203,7 +206,15 @@ passwordConf() {
 auditpolicies() {
 	##turn on audits
 	sudo apt-get install auditd
-	auditctl -e 1
+	auditctl -e 1	
+	##Audit settings
+	echo "Want to change audit settings? (Y|N)"
+	read chgaudit
+	if [ "$chgaudit" = "Y" ] || [ "$chgaudit" = "y" ]
+	then
+		echo "Opening audit settings..."
+		gedit /etc/audit/auditd.conf
+	fi
 }
 
 ##Disable root login and guest
@@ -246,16 +257,37 @@ removethese() {
 	sudo apt remove aisleriot gnome-mahjongg gnome-mines gnome-sudoku 
 	##Remove nmap and zenmap
 	sudo apt-get remove nmap
-	cont
+	wait
 	sudo apt-get purge nmap
-	cont
+	wait
 	sudo apt-get remove zennmap
-	cont
+	wait
 	sudo apt-get purge zenmap
-	cont
+	wait
 	sudo apt-get install auditd
-	cont
-	
+	wait
+	echo 'Want to disable telnet? (Y|N)'
+	read telnetyn
+	if [ "$telnetyn" = "y" ] || [ "$telnetyn" = "Y" ]
+	then
+		ufw deny telnet
+		ufw deny rtelnet
+		ufw deny telnets
+		apt-get purge telnet -y -qq
+		apt-get purge telnetd -y -qq
+		apt-get purge inetutils-telnetd -y -qq
+		apt-get purge telnet-ssl -y -qq
+		echo 'Telnet has been blocked on firewall and removed.'
+	elif [ "$telnetyn" = "n" ] || [ "$telnetyn" = "n" ]
+	then
+		ufw allow telnet
+		ufw allow rtelnet
+		ufw allow telnets
+		echo 'Telnet has been enabled.'
+	else
+		echo 'Unclear Response'
+	fi
+		
 
 }
 
@@ -278,13 +310,7 @@ firewallconfig() {
 	echo "Done setting up firewall"
 }
 newtestfunc() {
-	##disable telnet
-	echo "disable telnet; change disable to yes"
-	cont
-	gedit -w /etc/xinetd.d/telnet
-	echo "done?"
-	cont
-	/sbin/chkconfig telnet off
+	echo 'Skip'
 }
 
 iptablesconfig() {
