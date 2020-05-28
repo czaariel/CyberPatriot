@@ -170,11 +170,29 @@ Set-Content config wuauserv start= auto
 
 	for ($i=0; $i -lt $usersonthiscomp.length; $i++) {
 	    #Clear-Host
-	    Write-Output $usersonthiscomp[$i] is a user
+	    Write-Output Configuring $usersonthiscomp[$i] properties
 	    $deletethisuser = Read-Host Delete $usersonthiscomp[$i]? y or n
 	    if ( $deletethisuser -eq "y") {
-		Write-Output $usersonthiscomp[$i] is being deleted
+		Remove-LocalUser -Name $usersonthiscomp[$i]	    	
+		Write-Output Use $usersonthiscomp[$i] is deleted
+		clear
 	    }
+	    else {
+	    	$adminyn = Read-Host Make $usersonthiscomp[$i] an admin? y or n
+		if ( $adminyn -eq "y") {
+			Add-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
+			Write-Output User $usersonthiscomp[$i] is an admin
+			clear
+			
+		}
+		else {
+			Remove-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
+			Write-Output User $usersonthiscomp[$i] is not an admin
+			
+			
+		}
+	    }
+	    
 	}
 	
 # Password Policy
