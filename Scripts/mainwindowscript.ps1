@@ -159,13 +159,15 @@ Set-Content config wuauserv start= auto
     #Turn off Guest Account
     	#Check to see if Guest Account is active
 	net user guest | findstr /C:"active"
-    net user guest /active:no
-# Set all user passwords to expire
+	net user guest /active:no
+	# Set all user passwords to expire
 	$Users = (Get-CimInstance -Class win32_useraccount | Where-Object {$_.PasswordExpires -eq $false}).Name
 	ForEach($User in $Users) {
 	    Get-CimInstance -Query 'Select * from Win32_UserAccount where name LIKE "$User" -Property @{PasswordExpires=$True}
 	}
-
+	#Change Passwords
+	[array]$usersonthiscomp = (Read-Host "List all users on this computer (separated by only a comma. Ex: tom,bob,joe)").split(",") | %{$_.trim()}
+	
 # Password Policy
     #Set minimum password length to 8, max password age to 90 days, minimum age to 15 days, and how many passwords are kept to prevent reuse
     net accounts /minpwlen:8 /maxpwage:90 /minpwage:15 /uniquepw:24
