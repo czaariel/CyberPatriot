@@ -1,33 +1,49 @@
-#Run Powershell as admin
-
-#Set execution policy
-Set=ExecutionPolicy Unrestricted
-#Fix any potential issues with powershell
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Install-PackageProvider -Name NuGet
-#Install Google Chrome for better browsing
-$LocalTempDir = $env:TEMP; $ChromeInstaller = "ChromeInstaller.exe"; (new-object    System.Net.WebClient).DownloadFile('http://dl.google.com/chrome/install/375.126/chrome_installer.exe', "$LocalTempDir\$ChromeInstaller"); & "$LocalTempDir\$ChromeInstaller" /silent /install; $Process2Monitor =  "ChromeInstaller"; Do { $ProcessesFound = Get-Process | ?{$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else { rm "$LocalTempDir\$ChromeInstaller" -ErrorAction SilentlyContinue -Verbose } } Until (!$ProcessesFound)
 
 
-#Install ProgramManagement
-Install-Module -Name ProgramManagement
-Import-Module -Name ProgramManagement
-echo "Use 'Get-Command -Module ProgramManagement' or ' Get-Help <command> -Full'"
-
-
-
-#Set functions for later usage
-   function RemoveThisUser {
-        Remove-LocalUser -Name $args
+Param()
+ 
+$prompt = "Enter the user's SAMAccountname"
+$Title = "Reset Password"
+$Default = $null
+ 
+Add-Type -AssemblyName "microsoft.visualbasic" -ErrorAction Stop
+#use a VBScript style input box to prompt for the user name
+$username = [microsoft.visualbasic.interaction]::InputBox($Prompt,$Title,$Default)
+ 
+if ($username) {
+    #prompt for the new password
+    $prompt = "Enter the user's new password"
+    $Plaintext =[microsoft.visualbasic.interaction]::InputBox($Prompt,$Title,$Default)
+ 
+    #convert to secure string
+    $NewPassword = ConvertTo-SecureString -String $Plaintext -AsPlainText -Force
+ 
+    #define a hash table of parameter values to splat to 
+    #Set-ADAccountPassword
+    $paramHash = @{
+    Identity = $Username
+    NewPassword = $NewPassword 
+    Reset = $True
+    Passthru = $True
+    ErrorAction = "Stop"
     }
-    function AddThisUser {
-        echo "enter the password you want for the user
-        $Password = Read-Host -AsSecureString
-        New-LocalUser -name $args -Password $Password -FullName $args -Description "new user"
+ 
+    Try {
+     $output = Set-ADAccountPassword @paramHash |
+     Set-ADUser -ChangePasswordAtLogon $True -PassThru |
+     Get-ADuser -Properties PasswordLastSet,PasswordExpired,WhenChanged | Out-String
+ 
+     #display user in a message box
+     $message = $output
+     $button = "OKOnly"
+     $icon = "Information"
+     [microsoft.visualbasic.interaction]::Msgbox($message,"$button,$icon",$title) | Out-Null
     }
-    function Change2User {
-        Remove-LocalGroupMember -Group "Administrators" -Member "$args"
+    Catch {
+        #display error in a message box
+        $message =  "Failed to reset password for $Username. $($_.Exception.Message)"
+        $button = "OKOnly"
+        $icon = "Exclamation"
+       [microsoft.visualbasic.interaction]::Msgbox($message,"$button,$icon",$title) | Out-Null
     }
-    function Change2Admin {
-        Add-LocalGroupMember -Group "Administrators" -Member "$args"
-    }
+} #if user specified
