@@ -13,7 +13,10 @@ cont() {
 	clear
 }
 
-
+exitme() {
+	exit 1
+	clear
+}
 
 ##Update programs and systems
 updates() {
@@ -402,6 +405,52 @@ filesconfig() {
 	find /home -name '*.jpeg' -type f -delete
 }
 
+show_menu() {
+	echo "
+
+		  ---------------------------------------------------------------------------------
+		  Welcome to the Raleigh-Wake CyberPatriot Linux script, choose a number (1-10):
+		      1) General Updates
+		      2) Network Statistics
+		      3) User Configurations
+		      4) Password Configurations
+		      5) Disable Root and Guest accounts
+		      6) Audit Policies
+		      7) Remove Programs
+		      8) Firewall Config
+		      9) *test function, please skip this*
+		      10) IP table configuration
+		      11) File Configuration
+		      12) Exit
+		  ---------------------------------------------------------------------------------
+		"	
+}
+
+read_option() {
+
+	local choice
+	read -p "Please select action you wish to do: " choice
+	
+	case $choice in
+	
+		1) updates;;
+		2) netstats;;
+		3) fastusrchg;;
+		4) passwordConf;;
+		5) auditpolicies;;
+		6) disrootandguest;;
+		7) removethese;;
+		8) firewallconfig;;
+		9) newtestfunc;;
+		10) iptablesconfig;;
+		11) filesconfig;;
+		12) runAll;;
+		13) exitme;;
+		*) echo "Sorry, that was not an option"
+		;;
+	esac
+
+}
 startingmenu() {
 	clear
 	echo "
@@ -419,7 +468,8 @@ startingmenu() {
 	      9) *test function, please skip this*
 	      10) IP table configuration
 	      11) File Configuration
-	      12) Exit
+	      12) Run Entire Script except ones that require your input
+	      13) Exit
 	  ---------------------------------------------------------------------------------
 	"
 	read pleasegoto
@@ -473,5 +523,12 @@ startingmenu() {
 }
 
 startingmenu
+
+while true
+do
+	clear
+	show_menu
+	read_option
+done
 
 
