@@ -221,13 +221,18 @@ Set-Content config wuauserv start= auto
 			Add-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
 			Write-Output User $usersonthiscomp[$i] is an admin
 			clear
-			
+			Write-Output To change the password, you must write the name of the current user: $usersonthiscomp[$i]
+			$password = ConvertTo-SecureString "CyberPatri0t!" -AsPlainText -Force
+			Set-LocalUser -Password $password			
 		}
 		else {
 			Remove-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
 			Write-Output User $usersonthiscomp[$i] is not an admin
-			
-			
+			clear
+			Write-Output To change the password, you must write the name of the current user: $usersonthiscomp[$i]
+			$password = ConvertTo-SecureString "CyberPatri0t!" -AsPlainText -Force
+			Set-LocalUser -Password $password
+			Write-Output Password has been changed...
 		}
 	    }
 	    
