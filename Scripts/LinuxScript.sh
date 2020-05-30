@@ -79,6 +79,10 @@ netstats() {
 	lsof -i -n -P
 	netstat -tulpn
 	cont
+	#services
+	sudo service --status-all
+	cont
+	#add to remove netcat
 }
 
 ##This is a list of variables used in if statements below... change the users to the correct usernames before running...
