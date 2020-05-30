@@ -18,8 +18,28 @@ exitme() {
 	clear
 }
 
+setvars() {
+	#Determine who you are logged in as
+	echo "Who are you logged in as? (ex: bwayne)?"
+	read loggedinas
+}
+runAll() {
+	updates
+	networkstats
+	userconfig
+	passwordConf
+	disrootandguest
+	auditingpolicies
+	removethese
+	firewallconfig
+	newtestfunc
+	iptablesconfig
+	filesconfig
+}
 ##Update programs and systems
 updates() {
+clear
+	echo "Starting updates and upgrades, please wait."
 	sudo add-apt-repository -y ppa:libreoffice/ppa
 	sudo apt-get update -y -qq
 	wait
@@ -39,6 +59,7 @@ updates() {
 	cont
 	sudo dpkg-reconfigure --priority=low unattended-upgrades -y -qq
 	nano /etc/apt/apt.conf.d/50unattended-upgrades
+	clear
 	echo "automatic updates configured, visit settings to make sure"
 	cont
 	##Install clamav
@@ -49,7 +70,6 @@ updates() {
 	cont
 	##Update 7-Zip
 	sudo apt-get install p7zip-full
-
 }
 
 ##Look at ports and which aplications are using them
@@ -148,6 +168,7 @@ passwordConf() {
 	echo "Done editing password history?"
 	cont
 	echo "Add password length of 10 to end of line with pam_unix.so by using minlen=10 "
+	gedit /etc/pam.d/common-password
 	cont
 	echo "done?"
 	cont
@@ -165,9 +186,7 @@ passwordConf() {
 	cont
 	gedit /etc/login.defs
 	cont
-
-
-	echo "Done with password restrictions, account policy, and audits. Move on to disabling root and guest login?"
+	echo "Done, Move on?"
 	cont	
 }
 
@@ -451,78 +470,78 @@ read_option() {
 	esac
 
 }
-startingmenu() {
-	clear
-	echo "
-
-	  ---------------------------------------------------------------------------------
-	  Welcome to the Raleigh-Wake CyberPatriot Linux script, choose a number (1-10):
-	      1) General Updates
-	      2) Network Statistics
-	      3) User Configurations
-	      4) Password Configurations
-	      5) Disable Root and Guest accounts
-	      6) Audit Policies
-	      7) Remove Programs
-	      8) Firewall Config
-	      9) *test function, please skip this*
-	      10) IP table configuration
-	      11) File Configuration
-	      12) Run Entire Script except ones that require your input
-	      13) Exit
-	  ---------------------------------------------------------------------------------
-	"
-	read pleasegoto
-
-	if [ "$pleasegoto" = "1" ] || [ "$pleasegoto" = "one" ]
-	then
-	    updates
-	    startingmenu
-	elif [ "$pleasegoto" = "2" ] || [ "$pleasegoto" = "two" ]
-	then
-	    netstats
-	    startingmenu
-	elif [ "$pleasegoto" = "3" ] || [ "$pleasegoto" = "three" ]
-	then
-	    fastusrchg
-	    startingmenu
-	elif [ "$pleasegoto" = "4" ] || [ "$pleasegoto" = "four" ]
-	then
-	    passwordConf
-	    startingmenu
-	elif [ "$pleasegoto" = "5" ] || [ "$pleasegoto" = "five" ]
-	then
-	    disrootandguest
-	    startingmenu
-	elif [ "$pleasegoto" = "6" ] || [ "$pleasegoto" = "six" ]
-	then
-	    auditpolicies
-	    startingmenu
-	elif [ "$pleasegoto" = "7" ] || [ "$pleasegoto" = "seven" ]
-	then
-	    removethese
-	    startingmenu
-	elif [ "$pleasegoto" = "8" ] || [ "$pleasegoto" = "eight" ]
-	then
-	    firewallconfig
-	    startingmenu
-	elif [ "$pleasegoto" = "9" ] || [ "$pleasegoto" = "nine" ]
-	then
-	    echo "please rerun, the number 9 function is not currently working." #newtestfunc
-	elif [ "$pleasegoto" = "10" ] || [ "$pleasegoto" = "ten" ]
-	then
-	    iptablesconfig
-	    startingmenu
-	elif [ "$pleasegoto" = "11" ] || [ "$pleasegoto" = "eleven" ]
-	then
-	    filesconfig
-	    startingmenu
-	elif [ "$pleasegoto" = "12"] || [ "$pleasegoto" = "twelve" ]
-		exit
-	fi
-}
-
-startingmenu
+#startingmenu() {
+#	clear
+#	echo "
+#
+##	  ---------------------------------------------------------------------------------
+#	  Welcome to the Raleigh-Wake CyberPatriot Linux script, choose a number (1-10):
+#	      1) General Updates
+#	      2) Network Statistics
+#	      3) User Configurations
+#	      4) Password Configurations
+#	      5) Disable Root and Guest accounts
+#	      6) Audit Policies
+#	      7) Remove Programs
+#	      8) Firewall Config
+#	      9) *test function, please skip this*
+#	      10) IP table configuration
+#	      11) File Configuration
+#	      12) Run Entire Script except ones that require your input
+#	      13) Exit
+#	  ---------------------------------------------------------------------------------
+#	"
+#	read pleasegoto
+#
+#	if [ "$pleasegoto" = "1" ] || [ "$pleasegoto" = "one" ]
+#	then
+#	    updates
+#	    startingmenu
+#	elif [ "$pleasegoto" = "2" ] || [ "$pleasegoto" = "two" ]
+#	then
+#	    netstats
+#	    startingmenu
+#	elif [ "$pleasegoto" = "3" ] || [ "$pleasegoto" = "three" ]
+#	then
+#	    fastusrchg
+#	    startingmenu
+#	elif [ "$pleasegoto" = "4" ] || [ "$pleasegoto" = "four" ]
+#	then
+#	    passwordConf
+#	    startingmenu
+#	elif [ "$pleasegoto" = "5" ] || [ "$pleasegoto" = "five" ]
+#	then
+#	    disrootandguest
+#	    startingmenu
+#	elif [ "$pleasegoto" = "6" ] || [ "$pleasegoto" = "six" ]
+#	then
+#	    auditpolicies
+#	    startingmenu
+#	elif [ "$pleasegoto" = "7" ] || [ "$pleasegoto" = "seven" ]
+#	then
+#	    removethese
+#	    startingmenu
+#	elif [ "$pleasegoto" = "8" ] || [ "$pleasegoto" = "eight" ]
+#	then
+#	    firewallconfig
+#	    startingmenu
+#	elif [ "$pleasegoto" = "9" ] || [ "$pleasegoto" = "nine" ]
+#	then
+#	    echo "please rerun, the number 9 function is not currently working." #newtestfunc
+#	elif [ "$pleasegoto" = "10" ] || [ "$pleasegoto" = "ten" ]
+#	then
+#	    iptablesconfig
+#	    startingmenu
+#	elif [ "$pleasegoto" = "11" ] || [ "$pleasegoto" = "eleven" ]
+#	then
+#	    filesconfig
+#	    startingmenu
+#	elif [ "$pleasegoto" = "12"] || [ "$pleasegoto" = "twelve" ]
+#		exit
+#	fi
+#}
+#
+#startingmenu
 
 while true
 do
