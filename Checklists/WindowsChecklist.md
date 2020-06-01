@@ -23,8 +23,14 @@ For decrypting files, use: https://cryptii.com/
 
 1. Read the readme again!
 
-1. Run `firstrunwindowscript.ps1` in powershell in administrator mode
-
 1. Run `mainwindowscript.ps1` in powerhsell in administrator mode
 
 #### Post-Script Phase
+
+1. Unwanted Programs
+      
+      Once the script is done running, you need to go and locate a file called `InstalledPrograms-PS.txt`. It will be found at `C:\Users\$whoyouareloggedinas\Documents\InstalledPrograms-PS.txt`. Once you find this, open it to find all the non-default programs on the computer. Compare it with the readme to see what software you do not need. To uninstall these programs, do:
+      
+            ````
+            Uninstall-Program -ProgramName $unwantedprogram -UninstallAllSimilarlyNamedPackages
+            ````
