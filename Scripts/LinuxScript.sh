@@ -207,32 +207,21 @@ auditpolicies() {
 	fi
 }
 
-inprogrootconfig() {
-	
-	chown $loggedinas /etc/ssh/sshd_config
-	sudo bash -c "echo 'hey
-	hi' >>/home/zaariel/Desktop/root.txt"
-}
 
 ##Disable root login and guest
 disrootandguest() {
 	##Disabling root
-		#Get file perms
-		chown $loggedinas /etc/ssh/sshd_config
-	echo "Disabling root login..."
-	echo "If you want to disable root, change PermitRootLogin to no"
-	cont
-	gedit /etc/ssh/sshd_config
+	chown $loggedinas /etc/ssh/sshd_config
+	"Disabling root login..."
+	sed -i '/^PermitRootLogin/s/yes/no/' /etc/ssh/sshd_config /etc/ssh/sshd_config
 	echo "Done disabling root"
-	cont
 	##Disable Guest access
 	sudo bash -c "echo '[SeatDefaults]
 greeter-session=unity-greeter
 user-session=ubuntu
 allow-guest=false' >/etc/lightdm/lightdm.conf"
 	chown $loggedinas /etc/lightdm/lightdm.conf
-
-	echo "guest account has been disabled, please confirm after..."
+	echo "guest & root account has been disabled, please confirm after..."
 	cont
 	
 
