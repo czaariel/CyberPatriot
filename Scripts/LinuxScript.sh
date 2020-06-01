@@ -207,6 +207,13 @@ auditpolicies() {
 	fi
 }
 
+inprogrootconfig() {
+	
+	chown $loggedinas /etc/ssh/sshd_config
+	sudo bash -c "echo 'hey
+	hi' >>/home/zaariel/Desktop/root.txt"
+}
+
 ##Disable root login and guest
 disrootandguest() {
 	##Disabling root
