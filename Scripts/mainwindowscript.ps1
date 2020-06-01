@@ -1,7 +1,7 @@
 #Run Powershell as admin
 
 #Set execution policy
-Set=ExecutionPolicy Unrestricted
+Set=ExecutionPolicy -ExecutionPolicy Unrestricted
 #Fix any potential issues with powershell
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Install-PackageProvider -Name NuGet
@@ -34,7 +34,10 @@ echo "Use 'Get-Command -Module ProgramManagement' or ' Get-Help <command> -Full'
 
 
 
+$whoyouareloggedinas = (Read-Host "Who are you logged in as?")
+Write-Output $whoyouareloggedinas
 
+Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize > C:\Users\$whoyouareloggedinas\Documents\InstalledPrograms-PS.txt
 
 #Main script, to be used after Forensics questions and firstrunscript.ps1 have been run and done
 # Turn on AutoUpdates
