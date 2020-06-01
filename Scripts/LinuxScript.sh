@@ -226,8 +226,12 @@ disrootandguest() {
 	echo "Done disabling root"
 	cont
 	##Disable Guest access
+	sudo bash -c "echo '[SeatDefaults]
+greeter-session=unity-greeter
+user-session=ubuntu
+allow-guest=false' >/etc/lightdm/lightdm.conf"
 	chown $loggedinas /etc/lightdm/lightdm.conf
-	sudo bash -c "echo 'allow-guest=false' >>/etc/lightdm/lightdm.conf"
+
 	echo "guest account has been disabled, please confirm after..."
 	cont
 	
