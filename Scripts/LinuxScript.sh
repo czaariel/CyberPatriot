@@ -164,8 +164,8 @@ fastusrchg() {
 passwordConf() {
 	##Set Password History
 	chown $loggedinas /etc/pam.d/common-password
-	chown $loggedinas /etc/pam.d/common-password
-	chown $loggedinas /etc/pam.d/common-password
+	chown $loggedinas /etc/pam.d/common-auth
+	chown $loggedinas /etc/login.defs
 	echo "Change password history to 5 by adding 'remember=5' to the end of the line with pam_unix.so"
 	cont
 	gedit /etc/pam.d/common-password
