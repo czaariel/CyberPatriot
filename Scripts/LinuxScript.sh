@@ -68,9 +68,20 @@ updates() {
 	sudo apt-get install clamav clamav-daemon -y -qq
 	clamscan --version
 	echo "done installing clamav"
-	cont
 	##Update 7-Zip
-	sudo apt-get install p7zip-full
+	sudo apt-get install p7zip-full -y -qq
+	##Install aptitude
+	sudo apt-get install aptitude -y -qq
+	##Install cracklib
+	sudo apt-get install libpam-cracklib
+	##Install ssh
+	sudo apt-get install openssh-server
+	wait
+	sudo systemctl enable ssh
+	wait
+	sudo systemctl start ssh
+	wait
+	cont
 }
 
 ##Look at ports and which aplications are using them
