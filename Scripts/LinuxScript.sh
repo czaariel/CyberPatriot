@@ -162,35 +162,6 @@ fastusrchg() {
 }
 
 passwordConf() {
-	##Set Password History
-	chown $loggedinas /etc/pam.d/common-password
-	chown $loggedinas /etc/pam.d/common-auth
-	chown $loggedinas /etc/login.defs
-	echo "Change password history to 5 by adding 'remember=5' to the end of the line with pam_unix.so"
-	cont
-	gedit /etc/pam.d/common-password
-	echo "Done editing password history?"
-	cont
-	echo "Add password length of 10 to end of line with pam_unix.so by using minlen=10 "
-	cont
-	echo "done?"
-	cont
-	echo "add ucredit=-1 1credit=-1 dcredit=-1 ocredit=-1 to the end of line with pam_cracklib.so "
-	echo "Done with all password configuration?"
-	cont
-	echo "Moving onto account policy..."
-	echo "Add the following to the end of the file: auth required pam_tally2.so deny 5 onerr=fail unlock_time=1800   "
-	cont
-	gedit /etc/pam.d/common-auth
-	echo "done?"
-	cont
-	echo "setting password aging..."
-	echo "change PASS_MAX_DAYS to 90, PASS_MIN_DAYS to 10, and PASS_WARN_AGE to 7. save and close file..."
-	cont
-	gedit /etc/login.defs
-	cont
-	echo "Done with password restrictions and account policy... Move on to disabling root and guest login?"
-	cont
 	
 	echo "editing password policies and configurations..."
 	chown $loggedinas /etc/pam.d/common-password
@@ -200,6 +171,12 @@ passwordConf() {
 	curl "https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/commonauthbackup.txt" -o commonauth.txt
 	curl "https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/commonpassbackup.txt" -o commonpass.txt
 	curl "https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/logindefsbackup.txt" -o logindefs.txt
+	echo "configuration files have been downloaded from github"
+	cp commonauth.txt /etc/pam.d/common-auth
+	cp commonpass.txt /etc/pam.d/common-password
+	cp logindefs.txt /etc/login.defs
+	echo "files have been updated to match github..."
+	cont
 }
 
 auditpolicies() {
