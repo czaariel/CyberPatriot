@@ -190,7 +190,16 @@ passwordConf() {
 	gedit /etc/login.defs
 	cont
 	echo "Done with password restrictions and account policy... Move on to disabling root and guest login?"
-	cont	
+	cont
+	
+	echo "editing password policies and configurations..."
+	chown $loggedinas /etc/pam.d/common-password
+	chown $loggedinas /etc/pam.d/common-auth
+	chown $loggedinas /etc/login.defs
+	echo "password perms have been set..."
+	curl "https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/commonauthbackup.txt" -o commonauth.txt
+	curl "https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/commonpassbackup.txt" -o commonpass.txt
+	curl "https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/logindefsbackup.txt" -o logindefs.txt
 }
 
 auditpolicies() {
