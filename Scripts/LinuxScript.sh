@@ -166,9 +166,9 @@ fastusrchg() {
 			fi
 			
 			clear
-			echo Changing password for ${users[${i}]}.
+			echo Changing password of ${users[${i}]}.
 			sudo echo -e 'CyberPatri0t!\nCyberPatri0t!' | sudo passwd ${users[${i}]}
-			echo Done changing password for ${users[${i}]}.
+			echo Done changing password of ${users[${i}]}.
 			
 		fi
 	done
