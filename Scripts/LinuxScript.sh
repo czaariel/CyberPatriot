@@ -42,46 +42,46 @@ updates() {
 	clear
 	echo "Starting updates and upgrades, please wait."
 	sudo add-apt-repository -y ppa:libreoffice/ppa
-	sudo apt-get update -y -qq
+	sudo apt-get update -y
 	wait
-	sudo apt-get upgrade -y -qq
+	sudo apt-get upgrade -y
 	wait
-	sudo apt-get dist-upgrade -y -qq
+	sudo apt-get dist-upgrade -y
 	wait
-	killall firefox -y -qq
+	killall firefox -y
 	wait
-	sudo apt-get --purge --reinstall install firefox -y -qq
+	sudo apt-get --purge --reinstall install firefox -y
 	wait
-	sudo apt-get gksu -y -qq
+	sudo apt-get gksu -y
 	##Enable autoupdates
 	clear
-	sudo apt-get install unattended-upgrades -y -qq
+	sudo apt-get install unattended-upgrades -y
 	echo "Next step will enable unattended upgrades... press yes to make sure it works. Also make sure to get rid of // to enable all autoupdates"
 	cont
-	sudo dpkg-reconfigure --priority=low unattended-upgrades -y -qq
+	sudo dpkg-reconfigure --priority=low unattended-upgrades -y
 	nano /etc/apt/apt.conf.d/50unattended-upgrades
 	clear
 	echo "automatic updates configured, visit settings to make sure"
 	cont
 	##Install clamav
 	echo "installing clamav"
-	sudo apt-get install clamav clamav-daemon -y -qq
+	sudo apt-get install clamav clamav-daemon -y
 	clamscan --version
 	echo "done installing clamav"
 	##Update 7-Zip
-	sudo apt-get install p7zip-full -y -qq
+	sudo apt-get install p7zip-full -y
 	##Install aptitude
-	sudo apt-get install aptitude -y -qq
+	sudo apt-get install aptitude -y
 	##Install cracklib
 	sudo apt-get install libpam-cracklib
 	##Install ssh
-	sudo apt-get install openssh-server
+	sudo apt-get install openssh-server -y
 	wait
-	sudo systemctl enable ssh
+	sudo systemctl enable ssh -y
 	wait
-	sudo systemctl start ssh
+	sudo systemctl start ssh -y
 	wait
-	sudo apt-get install curl
+	sudo apt-get install curl -y
 	clear
 	echo "Done with updates and installing needed programs."
 	cont
@@ -91,7 +91,7 @@ updates() {
 netstats() {
 	##Check for listening ports
 	lsof -i -n -P
-	netstat -tulpn
+	netstat -tulpn > ~/Desktop/processes.txt
 	cont
 	#services
 	sudo service --status-all
@@ -100,7 +100,7 @@ netstats() {
 }
 
 ##This is a list of variables used in if statements below... change the users to the correct usernames before running...
-fastusrchg() {
+userconfig() {
 	#Welcome and user listing
 	clear
 	echo "Please go and make sure you have all of the users properties that you need to change!"
@@ -212,7 +212,7 @@ auditpolicies() {
 disrootandguest() {
 	##Disabling root
 	chown $loggedinas /etc/ssh/sshd_config
-	"Disabling root login..."
+	echo "Disabling root login..."
 	sed -i '/^PermitRootLogin/s/yes/no/' /etc/ssh/sshd_config /etc/ssh/sshd_config
 	echo "Done disabling root"
 	##Disable Guest access
