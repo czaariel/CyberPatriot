@@ -81,6 +81,9 @@ updates() {
 	wait
 	sudo systemctl start ssh
 	wait
+	sudo apt-get install curl
+	clear
+	echo "Done with updates and installing needed programs."
 	cont
 }
 
