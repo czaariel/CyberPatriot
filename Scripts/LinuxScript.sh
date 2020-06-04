@@ -350,10 +350,10 @@ iptablesconfig() {
 	ip6tables -P FORWARD DROP
 	ip6tables -P OUTPUT DROP
 	#Block Bogons
-	printf "\033[1;31mEnter primary internet interface: \033[0m\n"
-	read interface
+#	printf "\033[1;31mEnter primary internet interface: \033[0m\n"
+#	read interface
 	#Blocks bogons going into the computer
-	iptables -A INPUT -s 127.0.0.0/8 -i $interface -j DROP
+#	iptables -A INPUT -s 127.0.0.0/8 -i $interface -j DROP
 	iptables -A INPUT -s 0.0.0.0/8 -j DROP
 	iptables -A INPUT -s 100.64.0.0/10 -j DROP
 	iptables -A INPUT -s 169.254.0.0/16 -j DROP
@@ -364,7 +364,7 @@ iptablesconfig() {
 	iptables -A INPUT -s 203.0.113.0/24 -j DROP
 	iptables -A INPUT -s 224.0.0.0/3 -j DROP
 	#Blocks bogons from leaving the computer
-	iptables -A OUTPUT -d 127.0.0.0/8 -o $interface -j DROP
+#	iptables -A OUTPUT -d 127.0.0.0/8 -o $interface -j DROP
 	iptables -A OUTPUT -d 0.0.0.0/8 -j DROP
 	iptables -A OUTPUT -d 100.64.0.0/10 -j DROP
 	iptables -A OUTPUT -d 169.254.0.0/16 -j DROP
@@ -375,7 +375,7 @@ iptablesconfig() {
 	iptables -A OUTPUT -d 203.0.113.0/24 -j DROP
 	iptables -A OUTPUT -d 224.0.0.0/3 -j DROP
 	#Blocks outbound from source bogons - A bit overkill
-	iptables -A OUTPUT -s 127.0.0.0/8 -o $interface -j DROP
+#	iptables -A OUTPUT -s 127.0.0.0/8 -o $interface -j DROP
 	iptables -A OUTPUT -s 0.0.0.0/8 -j DROP
 	iptables -A OUTPUT -s 100.64.0.0/10 -j DROP
 	iptables -A OUTPUT -s 169.254.0.0/16 -j DROP
@@ -386,7 +386,7 @@ iptablesconfig() {
 	iptables -A OUTPUT -s 203.0.113.0/24 -j DROP
 	iptables -A OUTPUT -s 224.0.0.0/3 -j DROP
 	#Block receiving bogons intended for bogons - Super overkill
-	iptables -A INPUT -d 127.0.0.0/8 -i $interface -j DROP
+#	iptables -A INPUT -d 127.0.0.0/8 -i $interface -j DROP
 	iptables -A INPUT -d 0.0.0.0/8 -j DROP
 	iptables -A INPUT -d 100.64.0.0/10 -j DROP
 	iptables -A INPUT -d 169.254.0.0/16 -j DROP
