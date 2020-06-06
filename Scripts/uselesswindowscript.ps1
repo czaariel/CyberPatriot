@@ -109,8 +109,15 @@ function removeprograms {
 	Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName > ~/Desktop/installedprograms.txt
 	$path= type ~/Desktop/installedprograms.txt
 	foreach ($i in $path) {
-
-	Write-Output "The program $i is installed."
+		$deleteprogyn = Read-Host Would you like to delete $i? y or n
+		if ($deleteprogyn -eq "y") {
+			
+			Write-Output "The program $i has been deleted"
+		
+		}
+		Write-Output "Configuring $i settings"
+		
+		Write-Output "The program $i has been uninstalled."
 
 	}
 }
