@@ -57,10 +57,41 @@ function userconfig {
 		for ($i=0; $i -lt $adduserslist.length; $i++) {
 			clear
 			New-LocalUser -Name $adduserslist[$i] -Description "Wanted in readme" -NoPassword
-			Write-Output User $adduserslist[$i] has been added			
+			Write-Output User $adduserslist[$i] has been added
 		}
-	
 	}
+	
+	Cont
+	$usersonthiscomp = (Read-Host "List all users on this computer (separated by comma)").split(" ") | %{$_.trim()}
+	for ($i=0; $i -lt $usersonthiscomp.length; $i++) {
+	    #Clear-Host
+	    Write-Output Configuring $usersonthiscomp[$i] properties
+	    $deletethisuser = Read-Host Delete $usersonthiscomp[$i]? y or n
+	    if ( $deletethisuser -eq "y") {
+		Remove-LocalUser -Name $usersonthiscomp[$i]	    	
+		Write-Output Use $usersonthiscomp[$i] is deleted
+		clear
+	    }
+	    else {
+	    	$adminyn = Read-Host Make $usersonthiscomp[$i] an admin? y or n
+		if ( $adminyn -eq "y") {
+			Add-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
+			Write-Output User $usersonthiscomp[$i] is an admin
+			clear
+			Write-Output To change the password, you must write the name of the current user: $usersonthiscomp[$i]
+			$password = ConvertTo-SecureString "CyberPatri0t!" -AsPlainText -Force
+			Set-LocalUser -Password $password			
+		}
+		else {
+			Remove-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
+			Write-Output User $usersonthiscomp[$i] is not an admin
+			clear
+			Write-Output To change the password, you must write the name of the current user: $usersonthiscomp[$i]
+			$password = ConvertTo-SecureString "CyberPatri0t!" -AsPlainText -Force
+			Set-LocalUser -Password $password
+			Write-Output Password has been changed...
+		}
+	    }
 
 }
 
