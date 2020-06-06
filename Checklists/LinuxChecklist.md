@@ -187,6 +187,8 @@ You will have to be in the right directory to run. For example, if the script is
 			
 	1. Firewall Configurations
 	
+		To configure the firewall rules, run the following code:
+	
 		````
 		sudo apt-get install ufw -y
 		sudo apt-get upgrade ufw -y
@@ -203,13 +205,21 @@ You will have to be in the right directory to run. For example, if the script is
 		````
 		sudo find / -name '*.$fileending' -type f -delete
 		````
+
+		For example, to delete all mp3 files, you can use `sudo rm -rf *.mp3`
 		
-		or
+	1. Program Configurations
+	
+		If you would like to create a list of non-default programs installed on the computer, you can run:
 		
 		````
-		sudo rm -rf *.$fileending
+			comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) > ~/Desktop/installedbyme.txt
 		````
+		Then for each item in the file, just run:
 		
-		For example, to delete all mp3 files, you can use `sudo rm -rf *.mp3` or `sudo find / -name '*.mp3' -type f -delete`
+		````
+		sudo apt-get remove --purge $programinthefile
+		sudo apt-get autoremove
+		````
 		
 1. Complete other more in-depth checklists!
