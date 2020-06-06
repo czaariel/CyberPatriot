@@ -1,5 +1,5 @@
 Write-Output "Hello"
-
+$loggedinas = Read-Host "Who are you logged in as? ex bwayne"
 
 function cont {
     
@@ -61,6 +61,17 @@ function removeprograms {
 	
 	#List of installed programs
 	Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName > ~/Desktop/installedprograms.txt
+
+	
+	for i in $(type ~/Desktop/installedprograms.txt)
+	do
+		Write-Output "The program $i is installed"
+	done
+		$programs = (Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName).Name
+	ForEach($i in ~/Desktop/installedprograms.txt) {
+		Write-Output The program $i is installed
+	}
+}
 }
 
 runAll
