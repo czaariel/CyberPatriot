@@ -203,17 +203,18 @@ You will have to be in the right directory to run. For example, if the script is
 		In order to delete all instances of a file, you can use: 
 		
 		````
-		sudo find / -name '*.$fileending' -type f -delete
+		sudo rm -rf *.fileending
 		````
 
 		For example, to delete all mp3 files, you can use `sudo rm -rf *.mp3`
+		**Note: using `sudo find / -name '*.fileending' -type f -delete` may not work**
 		
 	1. Program Configurations
 	
 		If you would like to create a list of non-default programs installed on the computer, you can run:
 		
 		````
-			comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) > ~/Desktop/installedbyme.txt
+		comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) > ~/Desktop/installedbyme.txt
 		````
 		Then for each item in the file, just run:
 		
