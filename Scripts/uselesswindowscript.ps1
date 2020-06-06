@@ -47,6 +47,21 @@ function regconfig {
 
 function userconfig {
 
+	Write-Output "Do you have all user configurations written down?"
+	cont
+	Write-Output "Do you need to add users to the system? y or n"
+	$addyn = Read-Host
+	if ($addyn -eq "y") {
+	
+		$adduserslist = (Read-Host "List all users you want to add with a space in between.").split(" ") | %{$_.trim()}
+		for ($i=0; $i -lt $adduserslist.length; $i++) {
+			clear
+			New-LocalUser -Name $adduserslist[$i] -Description "Wanted in readme" -NoPassword
+			Write-Output User $adduserslist[$i] has been added			
+		}
+	
+	}
+
 }
 
 function passwordpol {
