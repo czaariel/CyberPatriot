@@ -58,7 +58,9 @@ function audits {
 }
 
 function removeprograms {
-
+	
+	#List of installed programs
+	Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName > ~/Desktop/installedprograms.txt
 }
 
 runAll
