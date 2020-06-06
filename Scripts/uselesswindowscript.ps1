@@ -106,7 +106,7 @@ function audits {
 function removeprograms {
 	
 	#List of installed programs
-	Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName > ~/Desktop/installedprograms.txt
+	Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object -ExpandProperty DisplayName | out-string > ~/Desktop/installedprograms.txt	
 	$path= type ~/Desktop/installedprograms.txt
 	foreach ($i in $path) {
 		$deleteprogyn = Read-Host Would you like to delete $i? y or n
@@ -121,6 +121,6 @@ function removeprograms {
 
 	}
 }
-}
+
 
 runAll
