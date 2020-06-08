@@ -125,7 +125,14 @@ function removeprograms {
 
 function servicesconfig {
 
-	Invoke-WebRequest -Uri https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/WindowsConfigFiles/processes.txt | Select-Object -ExpandProperty Content | Format-table | Out-String > ~/Desktop/sysprocesses.txt
+	Invoke-WebRequest -Uri https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/WindowsConfigFiles/processes.txt | Format-List -Property Content | Out-String > ~/Desktop/editprocesses.txt
+	clear
+	Write-Output "Click on editprocesses on the desktop."
+	Write-Output "You must go and edit that file to configure it properly otherwise, the non-default services will not show. Please go and remove 'Content:' and also make it so it looks like a simple list."
+	Write-Output "ONLY ONCE YOU ARE DONE IS WHEN YOU SHOULD CONTINUE... ARE YOU DONE?"
+	cont
+	Write-Output "Are you sure you changed the file?"
+	cont
 	Get-Process | Select-Object -ExpandProperty ProcessName | out-string > ~/Desktop/processes.txt
 	Compare-Object (Get-Content ~/Desktop/sysprocesses.txt) (Get-Content ~/processes.txt) | Select-Object -ExpandProperty InputObject | Out-File ~/Desktop/nonsysprocesses.txt
 	
