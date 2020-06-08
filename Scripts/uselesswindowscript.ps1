@@ -125,6 +125,7 @@ function removeprograms {
 
 function servicesconfig {
 
+	Invoke-WebRequest -Uri https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/WindowsConfigFiles/processes.txt | Select-Object -ExpandProperty Content | Format-table | Out-String > ~/Desktop/sysprocesses.txt
 	Get-Process | Select-Object -ExpandProperty ProcessName | out-string > ~/Desktop/processes.txt
 	Compare-Object (Get-Content ~/Desktop/sysprocesses.txt) (Get-Content ~/processes.txt) | Select-Object -ExpandProperty InputObject | Out-File ~/Desktop/nonsysprocesses.txt
 	
