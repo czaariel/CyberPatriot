@@ -20,6 +20,7 @@ function runAll {
 	passwordpol
 	audits
 	removeprograms
+	servicesconfig
 
 }
 
@@ -122,5 +123,12 @@ function removeprograms {
 	}
 }
 
+function servicesconfig {
+
+	Get-Process | Select-Object -ExpandProperty ProcessName | out-string > ~/Desktop/processes.txt
+	Compare-Object (Get-Content ~/Desktop/sysprocesses.txt) (Get-Content ~/processes.txt) | Select-Object -ExpandProperty InputObject | Out-File ~/Desktop/nonsysprocesses.txt
+	
+	
+}
 
 runAll
