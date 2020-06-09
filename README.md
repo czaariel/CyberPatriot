@@ -1,4 +1,4 @@
-# Raleigh-Wake-CyberPatriot
+# General
 Raleigh-Wake CyberPatriot Resources and Scripts
 
 If you need resources check:
