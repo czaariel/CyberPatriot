@@ -182,9 +182,9 @@ passwordConf() {
 	chown $loggedinas /etc/pam.d/common-auth
 	chown $loggedinas /etc/login.defs
 	echo "password perms have been set..."
-	curl "https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/UbuntuConfigFiles/commonauthbackup.txt" -o commonauth.txt
-	curl "https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/UbuntuConfigFiles/commonpassbackup.txt" -o commonpass.txt
-	curl "https://raw.githubusercontent.com/czaariel/Raleigh-Wake-CyberPatriot/master/Scripts/UbuntuConfigFiles/logindefsbackup.txt" -o logindefs.txt
+	curl "https://raw.githubusercontent.com/czaariel/CyberPatriot/master/Scripts/UbuntuConfigFiles/commonauthbackup.txt" -o commonauth.txt
+	curl "https://raw.githubusercontent.com/czaariel/CyberPatriot/master/Scripts/UbuntuConfigFiles/commonpassbackup.txt" -o commonpass.txt
+	curl "https://raw.githubusercontent.com/czaariel/CyberPatriot/master/Scripts/UbuntuConfigFiles/logindefsbackup.txt" -o logindefs.txt
 	echo "configuration files have been downloaded from github"
 	cp commonauth.txt /etc/pam.d/common-auth
 	cp commonpass.txt /etc/pam.d/common-password
