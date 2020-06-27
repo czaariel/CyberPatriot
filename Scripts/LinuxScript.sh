@@ -8,18 +8,19 @@ read loggedinas
 
 ##Create a function to be able to decide to move on or not...
 cont() {
-  echo "Continue (Y | N)?"
-  read contyn
-  if [ "$contyn" = "N" ] || [ "$contyn" = "n"]
-  then
+	echo "Continue (Y | N)?"
+	read contyn
+	if [ "$contyn" = "N" ] || [ "$contyn" = "n"]
+	then
 		echo "Exiting"
-    exit
-  fi
+	exit
+	fi
 	clear
 }
 
-logit() {
+loggedit() {
 
+	date >> ~/Desktop/scriptlog.txt
 
 }
 
