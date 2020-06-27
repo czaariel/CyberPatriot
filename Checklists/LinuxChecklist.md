@@ -24,6 +24,8 @@ Use "sudo bash linuxscript.sh" to run file when ready
 
 You will have to be in the right directory to run. For example, if the script is saved on the desktop, you have to use `cd /home/$currentuser/Desktop`
 
+If the `sudo` command is not working, try typing `dpkg -s sudo` OR `dpkg -s sudo-ldap`. If it is not installed, type `apt install sudo` OR `apt install sudo-ldap`.
+
 
 ## Checklist
 
