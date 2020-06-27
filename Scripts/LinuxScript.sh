@@ -18,6 +18,11 @@ cont() {
 	clear
 }
 
+logit() {
+
+
+}
+
 ##Create a function to run all functions, make it easier to organize
 runAll() {
 	clear
@@ -39,6 +44,15 @@ runAll() {
 
 ##Update programs and systems
 updates() {
+
+	echo "Do you need to change the timezone? y or n"
+	read timeyn
+	if [ "$timeyn" = "y" ] || [ "$timeyn" = "Y" ]
+	then
+		timedatectl set-ntp no
+		timedatectl set-timezone America/New_York
+		timedatectl set-ntp yes
+	fi
 	clear
 	echo "Starting updates and upgrades, please wait."
 	sudo add-apt-repository -y ppa:libreoffice/ppa
