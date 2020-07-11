@@ -1,5 +1,8 @@
 # Packet Tracer Notes and Commands
 
+##Useful Tools:
+https://www.aelius.com/njh/subnet_sheet.html
+
 ## Commands and Checklist
 
 ### General Commands
