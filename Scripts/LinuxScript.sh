@@ -295,22 +295,24 @@ removethese() {
 	
 	##Get a list of all non-default packeges installed and put them in file "installedbyme.txt"
 	comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) > /home/$loggedinas/Desktop/installedbyme.txt
-
-	for i in $(cat /home/$loggedinas/Desktop/installedbyme.txt)
-	do
-		clear
-		echo "Do you want $i installed?"
-		read needyn
-		if [ "$needyn" = "n" ] || [ "$needyn" = "N" ]
-		then
-			sudo apt-get remove --purge $i -y -qq
-			sudo apt-get autoremove -y -qq
-			clear
-		else
-			echo "keeping the file $i as stated in readme"
-			clear
-		fi
-	done
+	
+	service -status-all > ~/Desktop/services.txt
+	
+	#for i in $(cat /home/$loggedinas/Desktop/installedbyme.txt)
+	#do
+	#	clear
+	#	echo "Do you want $i installed?"
+	#	read needyn
+	#	if [ "$needyn" = "n" ] || [ "$needyn" = "N" ]
+	#	then
+	#		sudo apt-get remove --purge $i -y -qq
+	#		sudo apt-get autoremove -y -qq
+	#		clear
+	#	else
+	#		echo "keeping the file $i as stated in readme"
+	#		clear
+	#	fi
+	#done
 
 		
 
