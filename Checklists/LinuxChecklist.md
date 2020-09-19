@@ -224,5 +224,13 @@ If the `sudo` command is not working, try typing `dpkg -s sudo` OR `dpkg -s sudo
 		sudo apt-get remove --purge $programinthefile
 		sudo apt-get autoremove
 		````
+	1. Unwanted Services
+	
+		Type `service --status-all > ~/Desktop/services.txt` if the script didn't work, but if it did, skip to below:
+		
+		Open the file, and look for unwanted programs. If you find something, type:
+		````
+		sudo apt-get remove <service name>
+		````
 		
 1. Complete other more in-depth checklists!
