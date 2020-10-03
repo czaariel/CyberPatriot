@@ -34,3 +34,7 @@ For decrypting files, use: https://cryptii.com/
       ````
       Uninstall-Program -ProgramName $unwantedprogram -UninstallAllSimilarlyNamedPackages
       ````
+      
+1. Unwanted Services
+      
+      Right click on the task bar and click on the Task Manager. In here, look for any unwanted services. 
