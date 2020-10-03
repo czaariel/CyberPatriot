@@ -71,10 +71,10 @@ updates() {
 	##Enable autoupdates
 	clear
 	sudo apt-get install unattended-upgrades -y
-	echo "Next step will enable unattended upgrades... press yes to make sure it works. Also make sure to get rid of // to enable all autoupdates"
 	cont
 	sudo dpkg-reconfigure --priority=low unattended-upgrades -y
-	nano /etc/apt/apt.conf.d/50unattended-upgrades
+	curl "https://raw.githubusercontent.com/czaariel/CyberPatriot/master/Scripts/UbuntuConfigFiles/unattendedupgrades.txt" -o unattendedupgrades.txt
+	cp unattendedupgrades.txt /etc/apt/apt.conf.d/50unattended-upgrades
 	clear
 	echo "automatic updates configured, visit settings to make sure"
 	cont
