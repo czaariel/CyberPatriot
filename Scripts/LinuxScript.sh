@@ -1,5 +1,3 @@
-
-
 #!/bin/bash
 
 #Understand/Set basic variables
@@ -18,10 +16,9 @@ cont() {
 	clear
 }
 
-loggedit() {
+getTimeLogged() {
 
 	date >> ~/Desktop/scriptlog.txt
-
 }
 
 ##Create a function to run all functions, make it easier to organize
@@ -46,16 +43,17 @@ runAll() {
 ##Update programs and systems
 updates() {
 
-	echo "Do you need to change the timezone? y or n"
-	read timeyn
-	if [ "$timeyn" = "y" ] || [ "$timeyn" = "Y" ]
-	then
-		timedatectl set-ntp no
-		timedatectl set-timezone America/New_York
-		timedatectl set-ntp yes
-	fi
-	clear
-	echo "Starting updates and upgrades, please wait."
+	#echo "Do you need to change the timezone? y or n"
+	#read timeyn
+	#if [ "$timeyn" = "y" ] || [ "$timeyn" = "Y" ]
+	#then
+	#	timedatectl set-ntp no
+	#	timedatectl set-timezone America/New_York
+	#	timedatectl set-ntp yes
+	#fi
+	#clear
+	getTimeLogged
+	echo "---------------- Starting updates and upgrades, please wait. ------------------------" >> ~/Desktop/scriptlog.txt
 	sudo add-apt-repository -y ppa:libreoffice/ppa
 	sudo apt-get update -y
 	wait
@@ -67,6 +65,8 @@ updates() {
 	wait
 	sudo apt-get --purge --reinstall install firefox -y
 	wait
+	getTimeLogged
+	echo "firefox has been reinstalled." >> ~/Desktop/scriptlog.txt
 	sudo apt-get gksu -y
 	##Enable autoupdates
 	clear
@@ -77,20 +77,31 @@ updates() {
 	cp unattendedupgrades.txt /etc/apt/apt.conf.d/50unattended-upgrades
 	clear
 	echo "automatic updates configured, visit settings to make sure"
+	getTimeLogged
+	echo "unattendedupgrades has been attempted, please go to settings and configure autoupdates once the script is done" >> ~/Desktop/scriptlog.txt
 	cont
 	##Install clamav
+	getTimeLogged
 	echo "installing clamav"
 	sudo apt-get install clamav clamav-daemon -y
 	clamscan --version
-	echo "done installing clamav"
+	echo "done installing clamav" >> ~/Desktop/scriptlog.txt
 	##Update 7-Zip
 	sudo apt-get install p7zip-full -y
+	getTimeLogged
+	echo "7-zip has been updated/installed." >> ~/Desktop/scriptlog.txt
 	##Install aptitude
 	sudo apt-get install aptitude -y
+	getTimeLogged
+	echo "aptitude has been updated/installed." >> ~/Desktop/scriptlog.txt
 	##Install cracklib
 	sudo apt-get install libpam-cracklib
+	getTimeLogged
+	echo "cracklib has been updated/installed." >> ~/Desktop/scriptlog.txt
 	##Install ssh
 	sudo apt-get install openssh-server -y
+	getTimeLogged
+	echo "ssh has been installed." >> ~/Desktop/scriptlog.txt
 	wait
 	sudo systemctl enable ssh -y
 	wait
@@ -98,24 +109,29 @@ updates() {
 	wait
 	sudo apt-get install curl -y
 	clear
-	echo "Done with updates and installing needed programs."
+	echo " ---------------- Done with updates and installing needed programs ---------------------"
 	cont
 }
 
 ##Look at ports and which aplications are using them
 netstats() {
 	##Check for listening ports
-	lsof -i -n -P
-	netstat -tulpn > ~/Desktop/processes.txt
-	cont
+	echo "------------------ Network Stats (ports and services) -----------------" >> ~/Desktop/scriptlog.txt
+	lsof -i -n -P >> ~/Desktop/lPorts.txt
+	netstat -tulpn >> ~/Desktop/lPorts.txt
+	getTimeLogged
+	echo "ports have been put on the lPorts.txt file on your desktop" >> ~/Desktop/scriptlog.txt
 	#services
-	sudo service --status-all
-	cont
-	#add to remove netcat
+	sudo service --status-all > ~/Desktop/services.txt
+	getTimeLogged
+	echo "services have been listed in the services.txt file on your desktop" >> ~/Desktop/scriptlog.txt
+	echo "------------------- Done with Network Stats configurations -----------------" >> ~/Desktop/scriptlog.txt
 }
 
 ##This is a list of variables used in if statements below... change the users to the correct usernames before running...
 userconfig() {
+
+	echo "-------------------- User Configs (password, admin, delete, add) -----------------------" >> ~/Desktop/scriptlog.txt
 	#Welcome and user listing
 	clear
 	echo "Please go and make sure you have all of the users properties that you need to change!"
@@ -139,6 +155,8 @@ userconfig() {
 			sudo chown ${needaddusers[${i}]} /home/${needaddusers[${i}]}
 			sudo chgrp ${needaddusers[${i}]} /home/${needaddusers[${i}]}
 			echo Finished creating user ${needaddusers[${i}]}
+			getTimeLogged
+			echo Finished creating user ${needaddusers[${i}]} >> ~/Desktop/scriptlog.txt
 		done
 		clear
 	else
@@ -161,6 +179,8 @@ userconfig() {
 		then
 			userdel -r ${users[${i}]}
 			echo ${users[${i}]} has been deleted.
+			getTimeLogged
+			echo ${users[${i}]} has been deleted. >> ~/Desktop/scriptlog.txt
 		else
 			echo Make ${users[${i}]} administrator? y or n
 			read adminyn
@@ -171,6 +191,8 @@ userconfig() {
 				gpasswd -a ${users[${i}]} lpadmin
 				gpasswd -a ${users[${i}]} sambashare
 				echo ${users[${i}]} is now an admin.
+				getTimeLogged
+				echo ${users[${i}]} is now an admin. >> ~/Desktop/scriptlog.txt
 			else 
 				gpasswd -d ${users[${i}]} sudo
 				gpasswd -d ${users[${i}]} adm
@@ -178,91 +200,101 @@ userconfig() {
 				gpasswd -d ${users[${i}]} sambashare
 				gpasswd -d ${users[${i}]} root
 				echo ${users[${i}]} is now a standard user.
+				getTimeLogged
+				echo ${users[${i}]} is now a standard user. >> ~/Desktop/scriptlog.txt
 			fi
 			
 			clear
 			echo Changing password of ${users[${i}]}.
 			sudo echo -e 'CyberPatri0t!\nCyberPatri0t!' | sudo passwd ${users[${i}]}
 			echo Done changing password of ${users[${i}]}.
+			echo Done changing password of ${users[${i}]}. >> ~/Desktop/scriptlog.txt
 			
 		fi
 	done
 	clear
+	echo "----------------------- Done with User Configs ------------------------" >> ~/Desktop/scriptlog.txt
 }
 
 passwordConf() {
-	
+	getTimeLogged
+	echo "----------------------- Password Policies and Config ------------------------" >> ~/Desktop/scriptlog.txt
 	echo "editing password policies and configurations..."
 	chown $loggedinas /etc/pam.d/common-password
 	chown $loggedinas /etc/pam.d/common-auth
 	chown $loggedinas /etc/login.defs
-	echo "password perms have been set..."
+	getTimeLogged
+	echo "password perms have been set..." >> ~/Desktop/scriptlog.txt
 	curl "https://raw.githubusercontent.com/czaariel/CyberPatriot/master/Scripts/UbuntuConfigFiles/commonauthbackup.txt" -o commonauth.txt
 	curl "https://raw.githubusercontent.com/czaariel/CyberPatriot/master/Scripts/UbuntuConfigFiles/commonpassbackup.txt" -o commonpass.txt
 	curl "https://raw.githubusercontent.com/czaariel/CyberPatriot/master/Scripts/UbuntuConfigFiles/logindefsbackup.txt" -o logindefs.txt
-	echo "configuration files have been downloaded from github"
+	getTimeLogged
+	echo "configuration files have been downloaded from github" >> ~/Desktop/scriptlog.txt
 	cp commonauth.txt /etc/pam.d/common-auth
 	cp commonpass.txt /etc/pam.d/common-password
 	cp logindefs.txt /etc/login.defs
-	echo "files have been updated to match github..."
-	cont
+	getTimeLogged
+	echo "files have been updated to match github..." >> ~/Desktop/scriptlog.txt
+	echo "------------------------- Done with Password Policies and Config ---------------------------" >> ~/Desktop/scriptlog.txt
 }
 
 auditpolicies() {
+	echo "------------------------- Turning on audits -------------------------" >> ~/Desktop/scriptlog.txt
 	##turn on audits
 	sudo apt-get install auditd
 	auditctl -e 1	
+	echo "------------------------- Audits have been turned on -----------------------" >> ~/Desktop/scriptlog.txt
 	##Audit settings
-	echo "Want to change audit settings? (Y|N)"
-	read chgaudit
-	if [ "$chgaudit" = "Y" ] || [ "$chgaudit" = "y" ]
-	then
-		echo "Opening audit settings..."
-		gedit /etc/audit/auditd.conf
-	fi
+	#echo "Want to change audit settings? (Y|N)"
+	#read chgaudit
+	#if [ "$chgaudit" = "Y" ] || [ "$chgaudit" = "y" ]
+	#then
+	#	echo "Opening audit settings..."
+	#	gedit /etc/audit/auditd.conf
+	#fi
 }
 
 
 ##Disable root login and guest
 disrootandguest() {
+	echo "-------------------------- Disabling Root and Guest logins ---------------------------------" >> ~/Desktop/scriptlog.txt
 	##Disabling root
 	chown $loggedinas /etc/ssh/sshd_config
-	echo "Disabling root login..."
 	sed -i '/^PermitRootLogin/s/yes/no/' /etc/ssh/sshd_config /etc/ssh/sshd_config
-	echo "Done disabling root"
+	echo "Done disabling root" >> ~/Desktop/scriptlog.txt
 	##Disable Guest access
 	sudo bash -c "echo '[SeatDefaults]
 greeter-session=unity-greeter
 user-session=ubuntu
 allow-guest=false' >/etc/lightdm/lightdm.conf"
 	chown $loggedinas /etc/lightdm/lightdm.conf
-	echo "guest & root account has been disabled, please confirm after..."
-	cont
-	
-
+	echo "Done disabling guest account." >> ~/Desktop/scriptlog.txt
+	echo "---------------------------- Guest and Root accounts have been disabled (make sure to restart to apply changes) -----------------------------" >> ~/Desktop/scriptlog.txt
 }
 
 removethese() {
 	clear
+	echo "------------------------- Removing unwanted programs ----------------------" >> ~/Desktop/scriptlog.txt
 	##Remove WireShark
-	echo  "Removing wireshark IF installed..."
+	echo  "Removing wireshark IF installed..." >> ~/Desktop/scriptlog.txt
 	sudo apt-get remove --purge wireshark -y -qq
 	apt-get autoremove -y -qq
-	echo "Done removing wireshark"
+	echo "Done removing wireshark (if it was installed)" >> ~/Desktop/scriptlog.txt 
 	cont
 	clear
 	##Remove apache2
 	echo "Removing apache2 IF installed..."
 	sudo apt-get remove --purge apache2 -y -qq
 	apt-get autoremove -y -qq
-	echo "Done removing apache2"
+	echo "Done removing apache2 (if it was installed)" >> ~/Desktop/scriptlog.txt
 	cont
 	clear
 	##Remove games
-	echo "Removing default games IF installed..."
+	echo "Removing default games IF installed..." >> ~/Desktop/scriptlog.txt
 	sudo apt-get purge gnome-games-common gbrainy && sudo apt-get autoremove -y -qq
 	sudo apt remove aisleriot gnome-mahjongg gnome-mines gnome-sudoku -y -qq
 	##Remove nmap and zenmap
+	echo "removing nmap and zenmap" >> ~/Desktop/scriptlog.txt
 	sudo apt-get remove nmap -y -qq
 	wait
 	sudo apt-get purge nmap -y -qq
@@ -271,6 +303,7 @@ removethese() {
 	wait
 	sudo apt-get purge zenmap -y -qq
 	wait
+	echo "done removing nmap and zenmap" >> ~/Desktop/scriptlog.txt
 	echo 'Want to disable telnet? (Y|N)'
 	read telnetyn
 	if [ "$telnetyn" = "y" ] || [ "$telnetyn" = "Y" ]
@@ -282,19 +315,20 @@ removethese() {
 		apt-get purge telnetd -y -qq
 		apt-get purge inetutils-telnetd -y -qq
 		apt-get purge telnet-ssl -y -qq
-		echo 'Telnet has been blocked on firewall and removed.'
+		echo 'Telnet has been blocked on firewall and removed.' >> ~/Desktop/scriptlog.txt
 	elif [ "$telnetyn" = "n" ] || [ "$telnetyn" = "n" ]
 	then
 		ufw allow telnet
 		ufw allow rtelnet
 		ufw allow telnets
-		echo 'Telnet has been enabled.'
+		echo 'Telnet has been enabled.' >> ~/Desktop/scriptlog.txt
 	else
 		echo 'Unclear Response'
 	fi
 	
 	##Get a list of all non-default packeges installed and put them in file "installedbyme.txt"
 	comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) > /home/$loggedinas/Desktop/installedbyme.txt
+	echo "A list of non-default packages has ben created on your desktop called installedbyme.txt, check that if you have nothing else" >> ~/Desktop/scriptlog.txt
 	
 	service -status-all > ~/Desktop/services.txt
 	
@@ -319,7 +353,7 @@ removethese() {
 }
 
 firewallconfig() {
-	echo "setting up firewall"
+	echo "setting up firewall" >> ~/Desktop/scriptlog.txt
 	##Install UFW incase
 	sudo apt-get install ufw -y
 	##Update firewall
@@ -334,7 +368,7 @@ firewallconfig() {
 	echo 0 | sudo tee /proc/sys/net/ipv4/ip_forward
 	##Prevent IP spoofing
 	echo "nospoof on" | sudo tee -a /etc/host.conf
-	echo "Done setting up firewall"
+	echo "Done setting up firewall" >> ~/Desktop/scriptlog.txt
 }
 newtestfunc() {
 	echo 'Skip'
