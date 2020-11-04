@@ -443,21 +443,35 @@ iptablesconfig() {
 }
 
 filesconfig() {
-	echo "deleting unwanted files..."
-	rm -rf *.mp3
-	rm -rf *.mov
-	rm -rf *.mp4
-	rm -rf *.avi
-	rm -rf *.mpg
-	rm -rf *.mpeg
-	rm -rf *.flac
-	rm -rf *.m4a
-	rm -rf *.flv
-	rm -rf *.ogg
-	rm -rf *.gif
-	rm -rf *.png
-	rm -rf *.jpg
-	rm -rf *.jpeg
+	echo "------------ These are the paths for the prohibited files if you need it for forensics questions..." > ~/Desktop/prohibitedFiles.txt ----------"
+	echo "### mp3 files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.mp3" >> ~/Desktop/prohibitedFiles.txt
+	echo "### mov files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.mov" >> ~/Desktop/prohibitedFiles.txt
+	echo "### mp4 files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.mp4" >> ~/Desktop/prohibitedFiles.txt
+	echo "### avi files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.avi" >> ~/Desktop/prohibitedFiles.txt
+	echo "### mpg files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.mpg" >> ~/Desktop/prohibitedFiles.txt
+	echo "### mpeg files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.mpeg" >> ~/Desktop/prohibitedFiles.txt
+	echo "### flac files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.flac" >> ~/Desktop/prohibitedFiles.txt
+	echo "### m4a files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.m4a" >> ~/Desktop/prohibitedFiles.txt
+	echo "### flv files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.flv" >> ~/Desktop/prohibitedFiles.txt
+	echo "### ogg files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.ogg" >> ~/Desktop/prohibitedFiles.txt
+	echo "### gif files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.gif" >> ~/Desktop/prohibitedFiles.txt
+	echo "### png files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.png" >> ~/Desktop/prohibitedFiles.txt
+	echo "### jpg files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.jpg" >> ~/Desktop/prohibitedFiles.txt
+	echo "### jpeg files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.jpeg" >> ~/Desktop/prohibitedFiles.txt
 }
 
 runAll
