@@ -55,6 +55,9 @@ updates() {
 	getTimeLogged
 	echo "---------------- Starting updates and upgrades, please wait. ------------------------" >> ~/Desktop/scriptlog.txt
 	sudo add-apt-repository -y ppa:libreoffice/ppa
+	wait
+	sudo apt-get -f install -y
+	wait
 	sudo apt-get update -y
 	wait
 	sudo apt-get upgrade -y
@@ -98,6 +101,9 @@ updates() {
 	sudo apt-get install libpam-cracklib
 	getTimeLogged
 	echo "cracklib has been updated/installed." >> ~/Desktop/scriptlog.txt
+	##Install netstat
+	sudo apt-get install net-tools
+	echo "netstat has been updated/installed." >> ~/Desktop/scriptlog.txt
 	##Install ssh
 	sudo apt-get install openssh-server -y
 	getTimeLogged
