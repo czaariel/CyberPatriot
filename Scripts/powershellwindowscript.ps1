@@ -1,25 +1,42 @@
-#Run Powershell as admin
+function runAll {
+	clear
+	
+	#actually runs all functions...
+	basicStuff
+	registryStuff
+	firewallStuff
+	userAndPassStuff
+	programStuff
+	checkAfterStuff
+	
+}
 
-#Set execution policy
-Set=ExecutionPolicy -ExecutionPolicy Unrestricted
-#Fix any potential issues with powershell
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Install-PackageProvider -Name NuGet
-#Install Google Chrome for better browsing
-$LocalTempDir = $env:TEMP; $ChromeInstaller = "ChromeInstaller.exe"; (new-object    System.Net.WebClient).DownloadFile('http://dl.google.com/chrome/install/375.126/chrome_installer.exe', "$LocalTempDir\$ChromeInstaller"); & "$LocalTempDir\$ChromeInstaller" /silent /install; $Process2Monitor =  "ChromeInstaller"; Do { $ProcessesFound = Get-Process | ?{$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else { rm "$LocalTempDir\$ChromeInstaller" -ErrorAction SilentlyContinue -Verbose } } Until (!$ProcessesFound)
+function basicStuff {
+	#Set execution policy
+	Set=ExecutionPolicy -ExecutionPolicy Unrestricted
+	#Fix any potential issues with powershell
+	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+	Install-PackageProvider -Name NuGet
+
+	#Install ProgramManagement
+	Install-Module -Name ProgramManagement
+	Import-Module -Name ProgramManagement
+	echo "Use 'Get-Command -Module ProgramManagement' or ' Get-Help <command> -Full'"
+	
+	
+	$whoyouareloggedinas = (Read-Host "Who are you logged in as?")
+	Write-Output $whoyouareloggedinas
+	
+	# Turn on AutoUpdates
+	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 0 /f
+	net start wuauserv
+	Set-Content config wuauserv start= auto
+}
 
 
-#Install ProgramManagement
-Install-Module -Name ProgramManagement
-Import-Module -Name ProgramManagement
-echo "Use 'Get-Command -Module ProgramManagement' or ' Get-Help <command> -Full'"
-
-
-
-#Set functions for later usage
-   function RemoveThisUser {
+function RemoveThisUser {
         Remove-LocalUser -Name $args
-    }
+}
     function AddThisUser {
         echo "enter the password you want for the user
         $Password = Read-Host -AsSecureString
@@ -34,19 +51,119 @@ echo "Use 'Get-Command -Module ProgramManagement' or ' Get-Help <command> -Full'
 
 
 
-$whoyouareloggedinas = (Read-Host "Who are you logged in as?")
-Write-Output $whoyouareloggedinas
-
-Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize > C:\Users\$whoyouareloggedinas\Documents\InstalledPrograms-PS.txt
-
-#Main script, to be used after Forensics questions and firstrunscript.ps1 have been run and done
-# Turn on AutoUpdates
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 0 /f
-net start wuauserv
-Set-Content config wuauserv start= auto
+function checkAfterStuff {
+	Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize > C:\Users\$whoyouareloggedinas\Documents\InstalledPrograms-PS.txt
+}
 
 
-#General Rules
+
+function userAndPassStuff {
+
+    #Set minimum password length to 8, max password age to 90 days, minimum age to 15 days, and how many passwords are kept to prevent reuse
+    net accounts /minpwlen:10 /maxpwage:90 /minpwage:15 /uniquepw:24
+    #Turn on audits
+    Auditpol /set /Category:System /failure:enable
+    auditpol /set /category:* /success:enable
+    auditpol /set /category:* /failure:enable
+    #Password Lockout Policy (Lockout for 30 minutes after 5 attempts)
+    net accounts /lockoutthreshold:5
+    net accounts /lockoutduration:30
+    ##Enable password expiration
+    wmic path Win32_UserAccount where PasswordExpires=false set PasswordExpires=true
+    wmic path Win32_UserAccount where Name="Guest" set PasswordExpires=false
+    #Turn off Guest Account
+	net user guest /active:no
+	
+	# Set all user passwords to expire
+	$Users = (Get-CimInstance -Class win32_useraccount | Where-Object {$_.PasswordExpires -eq $false}).Name
+	ForEach($User in $Users) {
+	    Get-CimInstance -Query 'Select * from Win32_UserAccount where name LIKE "$User" -Property @{PasswordExpires=$True}
+	}
+	
+	#Change Passwords
+	$usersonthiscomp = (Read-Host "List all users on this computer (separated by only comma)").split(",") | %{$_.trim()}
+
+	for ($i=0; $i -lt $usersonthiscomp.length; $i++) {
+	    #Clear-Host
+	    Write-Output Configuring $usersonthiscomp[$i] properties
+	    $deletethisuser = Read-Host Delete $usersonthiscomp[$i]? y or n
+	    if ( $deletethisuser -eq "y") {
+		Remove-LocalUser -Name $usersonthiscomp[$i]	    	
+		Write-Output Use $usersonthiscomp[$i] is deleted
+		clear
+	    }
+	    else {
+	    	$adminyn = Read-Host Make $usersonthiscomp[$i] an admin? y or n
+		if ( $adminyn -eq "y") {
+			Add-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
+			Write-Output User $usersonthiscomp[$i] is an admin
+			clear
+			Write-Output To change the password, you must write the name of the current user: $usersonthiscomp[$i]
+			$password = ConvertTo-SecureString "CyberPatri0t!" -AsPlainText -Force
+			Set-LocalUser -Password $password			
+		}
+		else {
+			Remove-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
+			Write-Output User $usersonthiscomp[$i] is not an admin
+			clear
+			Write-Output To change the password, you must write the name of the current user: $usersonthiscomp[$i]
+			$password = ConvertTo-SecureString "CyberPatri0t!" -AsPlainText -Force
+			Set-LocalUser -Password $password
+			Write-Output Password has been changed...
+		}
+	    }
+	    
+	}	
+}
+
+function firewallStuff {
+    #Enable firewall
+    netsh advfirewall reset
+    netsh advfirewall set currentprofile state on
+    #Basic Firewall rules
+	netsh advfirewall firewall set rule name="Remote Assistance (DCOM-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Remote Assistance (PNRP-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Remote Assistance (RA Server TCP-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Remote Assistance (SSDP TCP-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Remote Assistance (SSDP UDP-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Remote Assistance (TCP-In)" new enable=no 
+	netsh advfirewall firewall set rule name="Telnet Server" new enable=no 
+	netsh advfirewall firewall set rule name="netcat" new enable=no
+    netsh advfirewall firewall add rule name="Deny Port 22" dir=in action=deny protocol=SSH localport=22
+    netsh advfirewall firewall add rule name="Deny Port 80" dir=in action=deny protocol=SMTP localport=25
+    netsh advfirewall firewall add rule name="Deny Port 80" dir=in action=deny protocol=POP3 localport=110
+    netsh advfirewall firewall add rule name="Deny Port 80" dir=in action=deny protocol=SNMP161 localport=161
+    netsh advfirewall firewall add rule name="Deny Port 80" dir=in action=deny protocol=389 localport=389
+    #Disable telnet & FTP
+    dism /online /Disable-Feature /FeatureName:TelnetClient
+    net stop msftpsvc
+    #Turn on UAC
+    reg ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+    #Turn off RDP
+    	Write-Output "Turning off RDP..."
+	reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 1 /f
+	reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d 0 /f
+    #Disable LocationTracking
+    	Write-Output "Disabling Location Tracking..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Type String -Value "Deny"
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
+}
+
+#Remove These Files
+    #Removes Wireshark
+    Uninstall-Program -ProgramName Wireshark -UninstallAllSimilarlyNamedPackages
+    #Removes Angry IP Scanner
+    Uninstall-Program -ProgramName AngryIPscanner -UninstallAllSimilarlyNamedPackages
+    #Removes NetBus Pro
+    Uninstall-Program -ProgramName NetBuspro -UninstallAllSimilarlyNamedPackages
+    
+    
+#Basic Registry Information Function ------ Keep at bottom of script for easy navigation without the page being clogged up
+function registryStuff {
 	#Windows automatic updates
         reg add HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU /v AutoInstallMinorUpdates /t REG_DWORD /d 1 /f
         reg add HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU /v NoAutoUpdate /t REG_DWORD /d 0 /f
@@ -170,99 +287,7 @@ Set-Content config wuauserv start= auto
 	reg add "HKCU\Software\Policies\Microsoft\Office\16.0\Excel\Security" /v blockcontentexecutionfrominternet /t REG_DWORD /d 1 /f
 	reg add "HKCU\Software\Policies\Microsoft\Office\16.0\PowerPoint\Security" /v blockcontentexecutionfrominternet /t REG_DWORD /d 1 /f
 	reg add "HKCU\Software\Policies\Microsoft\Office\16.0\Word\Security" /v vbawarnings /t REG_DWORD /d 4 /f
-	reg add "HKCU\Software\Policies\Microsoft\Office\16.0\Publisher\Security" /v vbawarnings /t REG_DWORD /d 4 /f
+	reg add "HKCU\Software\Policies\Microsoft\Office\16.0\Publisher\Security" /v vbawarnings /t REG_DWORD /d 4 /f	
+}
 
-#Basic Security
-    #Enable firewall
-    netsh advfirewall reset
-    netsh advfirewall set currentprofile state on
-    
-    #Disable telnet & FTP
-    dism /online /Disable-Feature /FeatureName:TelnetClient
-    net stop msftpsvc
-    #Turn on UAC
-    reg ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
-    #Turn off RDP
-    	Write-Output "Turning off RDP..."
-	reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 1 /f
-	reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d 0 /f
-    #Disable LocationTracking
-    	Write-Output "Disabling Location Tracking..."
-	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
-		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Force | Out-Null
-	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Type String -Value "Deny"
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
-	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
-
-    
-#User Management
-    #Turn off Guest Account
-    	#Check to see if Guest Account is active
-	net user guest | findstr /C:"active"
-	net user guest /active:no
-	# Set all user passwords to expire
-	$Users = (Get-CimInstance -Class win32_useraccount | Where-Object {$_.PasswordExpires -eq $false}).Name
-	ForEach($User in $Users) {
-	    Get-CimInstance -Query 'Select * from Win32_UserAccount where name LIKE "$User" -Property @{PasswordExpires=$True}
-	}
-	#Change Passwords
-	$usersonthiscomp = (Read-Host "List all users on this computer (separated by comma)").split(",") | %{$_.trim()}
-
-	for ($i=0; $i -lt $usersonthiscomp.length; $i++) {
-	    #Clear-Host
-	    Write-Output Configuring $usersonthiscomp[$i] properties
-	    $deletethisuser = Read-Host Delete $usersonthiscomp[$i]? y or n
-	    if ( $deletethisuser -eq "y") {
-		Remove-LocalUser -Name $usersonthiscomp[$i]	    	
-		Write-Output Use $usersonthiscomp[$i] is deleted
-		clear
-	    }
-	    else {
-	    	$adminyn = Read-Host Make $usersonthiscomp[$i] an admin? y or n
-		if ( $adminyn -eq "y") {
-			Add-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
-			Write-Output User $usersonthiscomp[$i] is an admin
-			clear
-			Write-Output To change the password, you must write the name of the current user: $usersonthiscomp[$i]
-			$password = ConvertTo-SecureString "CyberPatri0t!" -AsPlainText -Force
-			Set-LocalUser -Password $password			
-		}
-		else {
-			Remove-LocalGroupMember -Group "Administrators" -Member $usersonthiscomp[$i]
-			Write-Output User $usersonthiscomp[$i] is not an admin
-			clear
-			Write-Output To change the password, you must write the name of the current user: $usersonthiscomp[$i]
-			$password = ConvertTo-SecureString "CyberPatri0t!" -AsPlainText -Force
-			Set-LocalUser -Password $password
-			Write-Output Password has been changed...
-		}
-	    }
-	    
-	}
-	
-# Password Policy
-    #Set minimum password length to 8, max password age to 90 days, minimum age to 15 days, and how many passwords are kept to prevent reuse
-    net accounts /minpwlen:8 /maxpwage:90 /minpwage:15 /uniquepw:24
-    #Turn on audits
-    Auditpol /set /Category:System /failure:enable
-    auditpol /set /category:* /success:enable
-    auditpol /set /category:* /failure:enable
-    #Password Lockout Policy (Lockout for 30 minutes after 5 attempts)
-    net accounts /lockoutthreshold:5
-    net accounts /lockoutduration:30
-    ##Enable password expiration
-    wmic path Win32_UserAccount where PasswordExpires=false set PasswordExpires=true
-    wmic path Win32_UserAccount where Name="Guest" set PasswordExpires=false
-    ##Change password?
-    Get-ADUser -Filter * -SearchBase "OU=Rotating PW Users,OU=My Users,OU=My Company,DC=MAGICSMILES,DC=local" | Set-ADAccountPassword -Reset -NewPasword (Read-Host -Prompt "Enter Password" -AsSecureString) -WhatIf
-
-
-
-#Remove These Files
-    #Removes Wireshark
-    Uninstall-Program -ProgramName Wireshark -UninstallAllSimilarlyNamedPackages
-    #Removes Angry IP Scanner
-    Uninstall-Program -ProgramName AngryIPscanner -UninstallAllSimilarlyNamedPackages
-    #Removes NetBus Pro
-    Uninstall-Program -ProgramName NetBuspro -UninstallAllSimilarlyNamedPackages
+runAll
