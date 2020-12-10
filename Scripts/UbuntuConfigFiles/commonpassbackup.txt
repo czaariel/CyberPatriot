@@ -23,7 +23,7 @@
 
 # here are the per-package modules (the "Primary" block)
 password	requisite			pam_cracklib.so retry=3 minlen=8 difok=3 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1
-password	[success=1 default=ignore]	pam_unix.so obscure use_authtok try_first_pass sha512 remember=5 minlen=8
+password	[success=1 default=ignore]	pam_unix.so obscure use_authtok try_first_pass sha512 remember=5 minlen=10
 # here's the fallback if no module succeeds
 password	requisite			pam_deny.so
 # prime the stack with a positive return value if there isn't one already;
