@@ -11,7 +11,7 @@ cont() {
 	if [ "$contyn" = "N" ] || [ "$contyn" = "n"]
 	then
 		echo "Exiting"
-	exit
+		exit
 	fi
 	clear
 }
@@ -36,6 +36,7 @@ runAll() {
 	newtestfunc
 	iptablesconfig
 	filesconfig
+	exit
 	
 }
 
@@ -82,7 +83,7 @@ updates() {
 	echo "automatic updates configured, visit settings to make sure"
 	getTimeLogged
 	echo "unattendedupgrades has been attempted, please go to settings and configure autoupdates once the script is done" >> ~/Desktop/scriptlog.txt
-	cont
+	crontab -u root -e
 	##Install clamav
 	getTimeLogged
 	echo "installing clamav"
@@ -376,6 +377,7 @@ firewallconfig() {
 	echo "nospoof on" | sudo tee -a /etc/host.conf
 	echo "Done setting up firewall" >> ~/Desktop/scriptlog.txt
 }
+
 newtestfunc() {
 	echo 'Skip'
 }
@@ -512,6 +514,8 @@ filesconfig() {
 	find / -type f -name "*.jpg" >> ~/Desktop/prohibitedFiles.txt
 	echo "### jpeg files ###" >> ~/Desktop/prohibitedFiles.txt
 	find / -type f -name "*.jpeg" >> ~/Desktop/prohibitedFiles.txt
+	echo "### xlsx files ###" >> ~/Desktop/prohibitedFiles.txt
+	find / -type f -name "*.xlsx" >> ~/Desktop/prohibitedFiles.txt
 }
 
 runAll
