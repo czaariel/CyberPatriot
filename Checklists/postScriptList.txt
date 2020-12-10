@@ -1,0 +1,5 @@
+Post script list of things to check!!
+
+1) /etc/hosts file for any websites that shouldn't be in there.. ex: google.com
+2) make sure that autoupdates are correctly configured (only canonical supported free should be checked in one of the tabs)
+3) 
